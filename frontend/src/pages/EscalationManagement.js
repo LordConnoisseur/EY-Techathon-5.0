@@ -7,8 +7,8 @@ function EscalationManagement() {
     // Mock API call to fetch escalated calls
     const fetchEscalatedCalls = async () => {
       const data = [
-        { id: 1, client: "John Doe", issue: "Claim Delay", status: "Escalated" },
-        { id: 2, client: "Jane Smith", issue: "Incorrect Information", status: "Resolved" },
+        { id: 1, client: "Sundaresh", issue: "Claim Delay", status: "Escalated" },
+        { id: 2, client: "Afrin", issue: "Incorrect Information", status: "Resolved" },
       ];
       setEscalatedCalls(data);
     };

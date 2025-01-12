@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 function PriorityManagement() {
   const [priorityQueue, setPriorityQueue] = useState([
-    { caller: "John Doe", priority: "High" },
-    { caller: "Jane Smith", priority: "Medium" },
+    { caller: "Sundaresh", priority: "High" },
+    { caller: "Afrin", priority: "Medium" },
   ]);
 
   const handlePriorityChange = (index, newPriority) => {

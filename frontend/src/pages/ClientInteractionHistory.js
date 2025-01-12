@@ -7,8 +7,8 @@ function ClientInteractionHistory() {
     // Mock API call to fetch interaction history
     const fetchInteractions = async () => {
       const data = [
-        { id: 1, client: "John Doe", date: "2025-01-10", type: "Call", status: "Resolved" },
-        { id: 2, client: "Jane Smith", date: "2025-01-09", type: "Chat", status: "Pending" },
+        { id: 1, client: "Sundaresh", date: "2025-01-10", type: "Call", status: "Resolved" },
+        { id: 2, client: "Afrin", date: "2025-01-09", type: "Chat", status: "Pending" },
       ];
       setInteractions(data);
     };
