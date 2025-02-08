@@ -1,14 +1,38 @@
 import React, { useState } from "react";
 
 function CallScheduling() {
-  const [schedule, setSchedule] = useState({ caller: "", time: "" });
+  const [schedule, setSchedule] = useState({
+    caller: "",
+    phone: "",
+    issue: "",
+    agent: "",
+  });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate API integration for scheduling a call
-    console.log("Scheduled Call:", schedule);
-    alert("Call scheduled successfully!");
-    setSchedule({ caller: "", time: "" });
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/call-queue/schedule", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          caller_name: schedule.caller,
+          caller_phone: schedule.phone,
+          issue_type: schedule.issue,
+          assigned_agent: schedule.agent,
+          status: "pending",
+        }),
+      });
+
+      if (response.ok) {
+        alert("Call scheduled successfully!");
+        setSchedule({ caller: "", phone: "", issue: "", time: "", agent: "" });
+      } else {
+        alert("Failed to schedule call.");
+      }
+    } catch (error) {
+      console.error("Error scheduling call:", error);
+    }
   };
 
   return (
@@ -26,11 +50,31 @@ function CallScheduling() {
           />
         </div>
         <div>
-          <label className="block text-gray-700">Schedule Time</label>
+          <label className="block text-gray-700">Caller Phone</label>
           <input
-            type="datetime-local"
-            value={schedule.time}
-            onChange={(e) => setSchedule({ ...schedule, time: e.target.value })}
+            type="text"
+            value={schedule.phone}
+            onChange={(e) => setSchedule({ ...schedule, phone: e.target.value })}
+            className="border border-gray-300 rounded w-full p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Issue Type</label>
+          <input
+            type="text"
+            value={schedule.issue}
+            onChange={(e) => setSchedule({ ...schedule, issue: e.target.value })}
+            className="border border-gray-300 rounded w-full p-2"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Assign to Agent</label>
+          <input
+            type="text"
+            value={schedule.agent}
+            onChange={(e) => setSchedule({ ...schedule, agent: e.target.value })}
             className="border border-gray-300 rounded w-full p-2"
             required
           />

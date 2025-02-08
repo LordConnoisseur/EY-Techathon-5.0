@@ -1,63 +1,88 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 function CallQueueDashboard() {
-  const [callQueue, setCallQueue] = useState([]);
-  const [error, setError] = useState(null);
+  const [calls, setCalls] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const loggedInAgent = "Sundaresh"; // Replace with actual agent authentication
 
   useEffect(() => {
-    // Fetching the call queue data from the Flask API
-    const fetchCallQueue = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/calls/queue"); // Corrected API endpoint
-        if (!response.ok) {
-          throw new Error("Failed to fetch call queue");
-        }
-        const data = await response.json();
-        setCallQueue(data);
-      } catch (error) {
-        setError(error.message); // Handle errors like network issues
-      }
-    };
-    fetchCallQueue();
+    fetchAssignedCalls();
   }, []);
 
-  if (error) {
-    return <div className="text-red-500">{error}</div>; // Display error message if there's an issue
-  }
+  const fetchAssignedCalls = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`http://127.0.0.1:5000/api/call-queue/agent/${loggedInAgent}`);
+      const data = await response.json();
+      setCalls(data);
+    } catch (error) {
+      console.error("Error fetching calls:", error);
+    }
+    setLoading(false);
+  };
+
+  const handleUpdateStatus = async (callId, status) => {
+    try {
+      await fetch("http://127.0.0.1:5000/api/call-queue/update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ call_id: callId, status }),
+      });
+
+      fetchAssignedCalls();
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
+  };
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Call Queue Dashboard</h1>
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 p-2">Caller</th>
-            <th className="border border-gray-300 p-2">Priority</th>
-            <th className="border border-gray-300 p-2">Status</th>
-            <th className="border border-gray-300 p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {callQueue.length > 0 ? (
-            callQueue.map((call, index) => (
-              <tr key={index}>
-                <td className="border border-gray-300 p-2">{call.client}</td>
-                <td className="border border-gray-300 p-2">{call.priority}</td>
-                <td className="border border-gray-300 p-2">{call.status}</td>
-                <td className="border border-gray-300 p-2">
-                  <button className="bg-blue-500 text-white px-3 py-1 rounded">
-                    View
+      <h2 className="text-2xl font-bold mb-4">Call Queue Management</h2>
+      {loading ? <p>Loading...</p> : null}
+      <div className="bg-gray-100 p-6 rounded shadow">
+        {calls.length === 0 ? <p>No calls assigned to you</p> : (
+          <ul>
+            {calls.map((call) => (
+              <li key={call.id} className="mb-4 p-4 border-b">
+                <p><strong>Caller:</strong> {call.caller_name} ({call.caller_phone})</p>
+                <p><strong>Issue:</strong> {call.issue_type}</p>
+                <p><strong>Status:</strong> {call.status}</p>
+
+                {/* Show buttons conditionally based on the call status */}
+                {call.status === "pending" && (
+                  <button
+                    onClick={() => handleUpdateStatus(call.id, "in-progress")}
+                    className="bg-yellow-500 text-white p-2 rounded"
+                  >
+                    Mark as In Progress
                   </button>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="4" className="text-center p-4">No calls in the queue</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+                )}
+
+                {call.status === "in-progress" && (
+                  <>
+                    <button
+                      onClick={() => handleUpdateStatus(call.id, "resolved")}
+                      className="bg-green-500 text-white p-2 rounded mr-2"
+                    >
+                      Mark as Resolved
+                    </button>
+                    <button
+                      onClick={() => handleUpdateStatus(call.id, "escalated")}
+                      className="bg-red-500 text-white p-2 rounded"
+                    >
+                      Mark as Escalated
+                    </button>
+                  </>
+                )}
+
+                {(call.status === "resolved" || call.status === "escalated") && (
+                  <p className="text-gray-600 mt-2">No further actions available.</p>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

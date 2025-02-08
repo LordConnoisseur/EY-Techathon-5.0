@@ -1,9 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar"; // Adjust path as necessary
 import Header from "../components/Header"; // Adjust path as necessary
 import { Link, Outlet } from "react-router-dom";
 
 function CallManagementDashboard() {
+  const [stats, setStats] = useState({
+    pending: 0,
+    inProgress: 0,
+    resolved: 0,
+    escalated: 0,
+  });
+
+  useEffect(() => {
+    fetchCallStats();
+
+    const interval = setInterval(() => {
+      fetchCallStats();
+    }, 50); // Adjust the refresh rate as required
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const fetchCallStats = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/calls/call-stats");
+      const data = await response.json();
+      setStats(data);
+    } catch (error) {
+      console.error("Error fetching call stats:", error);
+    }
+  };
+
   return (
     <div className="flex">
       {/* Sidebar */}
@@ -44,18 +71,22 @@ function CallManagementDashboard() {
           </div>
 
           {/* Dashboard Widgets */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
             <div className="bg-blue-100 p-4 rounded shadow">
-              <h2 className="text-xl font-semibold">Pending Tasks</h2>
-              <p>15 Tasks</p>
+              <h2 className="text-xl font-semibold">Pending Calls</h2>
+              <p>{stats.pending}</p>
+            </div>
+            <div className="bg-yellow-100 p-4 rounded shadow">
+              <h2 className="text-xl font-semibold">In Progress Calls</h2>
+              <p>{stats.inProgress}</p>
             </div>
             <div className="bg-green-100 p-4 rounded shadow">
               <h2 className="text-xl font-semibold">Resolved Issues</h2>
-              <p>120 Cases</p>
+              <p>{stats.resolved}</p>
             </div>
             <div className="bg-red-100 p-4 rounded shadow">
               <h2 className="text-xl font-semibold">Escalated Calls</h2>
-              <p>5 Calls</p>
+              <p>{stats.escalated}</p>
             </div>
           </div>
 
