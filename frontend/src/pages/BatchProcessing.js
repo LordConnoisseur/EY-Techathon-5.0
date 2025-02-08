@@ -1,16 +1,36 @@
 import React, { useState } from "react";
 
 function BatchProcessing() {
-  const [batchData, setBatchData] = useState([]);
   const [status, setStatus] = useState("Idle");
+  const [processedItems, setProcessedItems] = useState([]);
 
-  const handleProcessBatch = () => {
-    // Simulate batch processing
+  const handleProcessBatch = async () => {
     setStatus("Processing...");
-    setTimeout(() => {
-      setStatus("Completed");
-      alert("Batch processing completed!");
-    }, 3000);
+
+    // Example batch data (can be modified as needed)
+    const batchData = { items: [1, 2, 3, 4, 5] };
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/batch-processing/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(batchData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setStatus("Completed");
+        setProcessedItems(result.processed_items);
+      } else {
+        setStatus("Failed");
+        alert(result.error || "Batch processing failed!");
+      }
+    } catch (error) {
+      setStatus("Error");
+      console.error("Error processing batch:", error);
+      alert("Error processing batch!");
+    }
   };
 
   return (
@@ -25,6 +45,16 @@ function BatchProcessing() {
         </button>
         <div className="mt-4">
           <p>Status: {status}</p>
+          {processedItems.length > 0 && (
+            <div className="mt-4">
+              <h3 className="text-lg font-bold">Processed Items:</h3>
+              <ul className="list-disc ml-5">
+                {processedItems.map((item) => (
+                  <li key={item.id}>{`Item ${item.id}: ${item.status}`}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       </div>
     </div>
