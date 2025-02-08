@@ -35,6 +35,23 @@ function CallQueueDashboard() {
     }
   };
 
+  const getEscalationSymbol = (level) => {
+    switch (level) {
+      case 1: return "⚠️ Tier 1";
+      case 2: return "🔥 Tier 2";
+      case 3: return "🛑 Admin Intervention";
+      default: return "No Escalation";
+    }
+  };
+
+  // To be verified
+  const timeSinceUpdate = (lastUpdated) => {
+    const updatedTime = new Date(lastUpdated);
+    const now = new Date();
+    const diff = Math.floor((now - updatedTime) / (1000 * 60 * 60)); // Convert to hours
+    return `${diff} hours ago`;
+  };
+
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-4">Call Queue Management</h2>
@@ -47,36 +64,20 @@ function CallQueueDashboard() {
                 <p><strong>Caller:</strong> {call.caller_name} ({call.caller_phone})</p>
                 <p><strong>Issue:</strong> {call.issue_type}</p>
                 <p><strong>Status:</strong> {call.status}</p>
+                <p><strong>Priority:</strong> {call.priority}</p>
+                <p><strong>Escalation Level:</strong> {getEscalationSymbol(call.escalation_level)}</p>
+                <p><strong>Last Updated:</strong> {timeSinceUpdate(call.last_updated)}</p>
 
-                {/* Show buttons conditionally based on the call status */}
                 {call.status === "pending" && (
-                  <button
-                    onClick={() => handleUpdateStatus(call.id, "in-progress")}
-                    className="bg-yellow-500 text-white p-2 rounded"
-                  >
+                  <button onClick={() => handleUpdateStatus(call.id, "in-progress")} className="bg-yellow-500 text-white p-2 rounded">
                     Mark as In Progress
                   </button>
                 )}
 
                 {call.status === "in-progress" && (
-                  <>
-                    <button
-                      onClick={() => handleUpdateStatus(call.id, "resolved")}
-                      className="bg-green-500 text-white p-2 rounded mr-2"
-                    >
-                      Mark as Resolved
-                    </button>
-                    <button
-                      onClick={() => handleUpdateStatus(call.id, "escalated")}
-                      className="bg-red-500 text-white p-2 rounded"
-                    >
-                      Mark as Escalated
-                    </button>
-                  </>
-                )}
-
-                {(call.status === "resolved" || call.status === "escalated") && (
-                  <p className="text-gray-600 mt-2">No further actions available.</p>
+                  <button onClick={() => handleUpdateStatus(call.id, "resolved")} className="bg-green-500 text-white p-2 rounded">
+                    Mark as Resolved
+                  </button>
                 )}
               </li>
             ))}

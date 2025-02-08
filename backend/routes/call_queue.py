@@ -8,10 +8,14 @@ call_queue_bp = Blueprint("call_queue", __name__)
 def schedule_call():
     data = request.get_json()
 
+    if not all(key in data for key in ["caller_name", "caller_phone", "issue_type", "issue_description", "assigned_agent"]):
+        return jsonify({"error": "Missing required fields"}), 400
+
     new_call = CallQueue(
         caller_name=data["caller_name"],
         caller_phone=data["caller_phone"],
         issue_type=data["issue_type"],
+        issue_description=data["issue_description"],  # Added description field
         assigned_agent=data["assigned_agent"],
         status="pending"
     )

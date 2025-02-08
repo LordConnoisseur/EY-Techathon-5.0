@@ -5,8 +5,20 @@ function CallScheduling() {
     caller: "",
     phone: "",
     issue: "",
+    description: "",
     agent: "",
   });
+
+  // Predefined issue types for dropdown
+  const issueTypes = [
+    "Fraud",
+    "Urgent Claim",
+    "Technical Issue",
+    "Claim Status Update",
+    "Payment Issue",
+    "General Inquiry",
+    "Policy Update",
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +31,7 @@ function CallScheduling() {
           caller_name: schedule.caller,
           caller_phone: schedule.phone,
           issue_type: schedule.issue,
+          issue_description: schedule.description,
           assigned_agent: schedule.agent,
           status: "pending",
         }),
@@ -26,7 +39,7 @@ function CallScheduling() {
 
       if (response.ok) {
         alert("Call scheduled successfully!");
-        setSchedule({ caller: "", phone: "", issue: "", time: "", agent: "" });
+        setSchedule({ caller: "", phone: "", issue: "", description: "", agent: "" });
       } else {
         alert("Failed to schedule call.");
       }
@@ -61,13 +74,28 @@ function CallScheduling() {
         </div>
         <div>
           <label className="block text-gray-700">Issue Type</label>
-          <input
-            type="text"
+          <select
             value={schedule.issue}
             onChange={(e) => setSchedule({ ...schedule, issue: e.target.value })}
             className="border border-gray-300 rounded w-full p-2"
             required
-          />
+          >
+            <option value="">Select an Issue Type</option>
+            {issueTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-gray-700">Issue Description</label>
+          <textarea
+            value={schedule.description}
+            onChange={(e) => setSchedule({ ...schedule, description: e.target.value })}
+            className="border border-gray-300 rounded w-full p-2 h-24"
+            required
+          ></textarea>
         </div>
         <div>
           <label className="block text-gray-700">Assign to Agent</label>
