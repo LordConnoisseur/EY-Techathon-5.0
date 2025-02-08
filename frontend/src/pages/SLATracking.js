@@ -1,39 +1,38 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 function SLATracking() {
-  const [slaData, setSlaData] = useState([]);
+  const [slaAlerts, setSlaAlerts] = useState([]);
 
   useEffect(() => {
-    // Simulating API call for SLA data
-    const fetchSlaData = async () => {
-      const response = await fetch("/api/sla-tracking"); // Replace with actual endpoint
-      const data = await response.json();
-      setSlaData(data);
-    };
-    fetchSlaData();
+    fetchSLAAlerts();
   }, []);
+
+  const fetchSLAAlerts = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/sla-tracking/check-sla");
+      const data = await response.json();
+      setSlaAlerts(data.sla_alerts);
+    } catch (error) {
+      console.error("Error fetching SLA alerts:", error);
+    }
+  };
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">SLA Tracking</h1>
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 p-2">Call ID</th>
-            <th className="border border-gray-300 p-2">SLA Status</th>
-            <th className="border border-gray-300 p-2">Time Remaining</th>
-          </tr>
-        </thead>
-        <tbody>
-          {slaData.map((item, index) => (
-            <tr key={index}>
-              <td className="border border-gray-300 p-2">{item.callId}</td>
-              <td className="border border-gray-300 p-2">{item.slaStatus}</td>
-              <td className="border border-gray-300 p-2">{item.timeRemaining}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <h2 className="text-2xl font-bold mb-4">SLA Tracking</h2>
+      <div className="bg-gray-100 p-6 rounded shadow">
+        {slaAlerts.length === 0 ? <p>No SLA breaches</p> : (
+          <ul>
+            {slaAlerts.map((alert) => (
+              <li key={alert.call_id} className="mb-4 p-4 border-b bg-red-200">
+                <p><strong>Caller:</strong> {alert.caller_name}</p>
+                <p><strong>Priority:</strong> {alert.priority}</p>
+                <p><strong>Status:</strong> {alert.status}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

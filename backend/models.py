@@ -1,4 +1,5 @@
 from db import db
+from datetime import datetime
 
 class FormSubmission(db.Model):
     __tablename__ = "form_submission"
@@ -13,8 +14,10 @@ class CallQueue(db.Model):
     caller_name = db.Column(db.String(100), nullable=False)
     caller_phone = db.Column(db.String(20), nullable=False)
     issue_type = db.Column(db.String(100), nullable=False)
+    assigned_agent = db.Column(db.String(100), nullable=True)
     status = db.Column(db.String(50), default="pending")
-    assigned_agent = db.Column(db.String(100), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    priority = db.Column(db.String(20), default="Medium")  # Add priority column
 
     def to_dict(self):
         return {
@@ -22,6 +25,8 @@ class CallQueue(db.Model):
             "caller_name": self.caller_name,
             "caller_phone": self.caller_phone,
             "issue_type": self.issue_type,
-            "status": self.status,
             "assigned_agent": self.assigned_agent,
+            "status": self.status,
+            "created_at": self.created_at.isoformat(),
+            "priority": self.priority
         }

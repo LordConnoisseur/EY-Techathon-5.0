@@ -1,39 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function PriorityManagement() {
-  const [priorityQueue, setPriorityQueue] = useState([
-    { caller: "Sundaresh", priority: "High" },
-    { caller: "Afrin", priority: "Medium" },
-  ]);
+  const [calls, setCalls] = useState([]);
 
-  const handlePriorityChange = (index, newPriority) => {
-    const updatedQueue = [...priorityQueue];
-    updatedQueue[index].priority = newPriority;
-    setPriorityQueue(updatedQueue);
+  useEffect(() => {
+    fetchPriorityQueue();
+  }, []);
+
+  const fetchPriorityQueue = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/priority-management/get-priority-queue");
+      const data = await response.json();
+      setCalls(data);
+    } catch (error) {
+      console.error("Error fetching priority queue:", error);
+    }
   };
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Priority Management</h1>
-      <ul className="space-y-4">
-        {priorityQueue.map((item, index) => (
-          <li
-            key={index}
-            className="flex items-center justify-between bg-gray-100 p-4 rounded shadow"
-          >
-            <span>{item.caller}</span>
-            <select
-              value={item.priority}
-              onChange={(e) => handlePriorityChange(index, e.target.value)}
-              className="border border-gray-300 rounded p-2"
-            >
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </li>
-        ))}
-      </ul>
+      <h2 className="text-2xl font-bold mb-4">Priority Management</h2>
+      <div className="bg-gray-100 p-6 rounded shadow">
+        {calls.length === 0 ? <p>No pending calls</p> : (
+          <ul>
+            {calls.map((call) => (
+              <li key={call.id} className="mb-4 p-4 border-b">
+                <p><strong>Caller:</strong> {call.caller_name} ({call.caller_phone})</p>
+                <p><strong>Issue:</strong> {call.issue_type}</p>
+                <p><strong>Priority:</strong> {call.priority}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

@@ -14,11 +14,11 @@ function CallManagementDashboard() {
   useEffect(() => {
     fetchCallStats();
 
-    const interval = setInterval(() => {
-      fetchCallStats();
-    }, 50); // Adjust the refresh rate as required
+    // const interval = setInterval(() => {
+    //   fetchCallStats();
+    // }, 50); // Adjust the refresh rate as required
 
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
   }, []);
 
   const fetchCallStats = async () => {
