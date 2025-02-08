@@ -1,2 +1,5 @@
 Flask
 Flask-CORS
+Flask-SQLAlchemy
+Flask-RESTful
+Werkzeug
