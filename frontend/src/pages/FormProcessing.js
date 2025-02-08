@@ -7,6 +7,8 @@ function FormProcessing() {
     phone: "",
   });
 
+  const [responseMessage, setResponseMessage] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -15,9 +17,26 @@ function FormProcessing() {
     }));
   };
 
-  const handleSubmit = () => {
-    // API call or form processing logic here
-    console.log("Form Data:", formData);
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/form-processing", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      const data = await response.json();
+      setResponseMessage(data.message);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setResponseMessage("Error submitting form");
+    }
   };
 
   return (
@@ -60,6 +79,7 @@ function FormProcessing() {
         >
           Submit Form
         </button>
+        {responseMessage && <p className="mt-4">{responseMessage}</p>}
       </div>
     </div>
   );
