@@ -12,6 +12,9 @@ from routes.call_management import call_management_bp
 from routes.priority_management import priority_bp
 from routes.sla_tracking import sla_bp
 from routes.escalation import escalation_bp, auto_escalate_calls
+from routes.knowledge_base import knowledge_bp
+from routes.form_filling import form_filling_bp
+from routes.streamlit import streamlit_bp
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -30,6 +33,9 @@ app.register_blueprint(call_management_bp, url_prefix="/api/calls")
 app.register_blueprint(priority_bp, url_prefix="/api/priority-management")
 app.register_blueprint(sla_bp, url_prefix="/api/sla-tracking")
 app.register_blueprint(escalation_bp, url_prefix="/api/escalation")
+app.register_blueprint(knowledge_bp, url_prefix="/api/knowledge")
+app.register_blueprint(form_filling_bp, url_prefix="/api/form-filling")
+app.register_blueprint(streamlit_bp, url_prefix="/api/streamlit")
 
 # Initialize Scheduler (Fix: Pass `app` explicitly)
 scheduler = BackgroundScheduler()
