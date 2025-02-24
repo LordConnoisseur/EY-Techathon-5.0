@@ -3,9 +3,14 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 
 function Dashboard() {
-  const handleDeploy = () => {
-    // Redirect to the Streamlit deployment URL (if available)
-    window.open("http://your-streamlit-app-url", "_blank");
+  const handleDeploy_1 = () => {
+    // Redirect to the Streamlit deployment URL
+    window.open("https://doc-question-answer.streamlit.app/", "_blank");
+  };
+
+  const handleDeploy_2 = () => {
+    // Redirect to the Streamlit deployment URL
+    window.open("https://form-analyser-1.streamlit.app/", "_blank");
   };
 
   return (
@@ -33,10 +38,16 @@ function Dashboard() {
         {/* Deploy Button - Centered Below Widgets */}
         <div className="flex justify-center mt-6">
           <button
-            onClick={handleDeploy}
+            onClick={handleDeploy_1}
             className="bg-purple-600 text-white px-6 py-2 rounded shadow-lg hover:bg-purple-700 transition"
           >
-            Deploy on Streamlit
+            Document - Based QnA Bot
+          </button>
+          <button
+            onClick={handleDeploy_2}
+            className="bg-purple-600 text-white px-6 py-2 rounded shadow-lg hover:bg-purple-700 transition"
+          >
+            Automated Form Filling
           </button>
         </div>
       </div>
