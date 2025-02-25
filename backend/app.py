@@ -15,6 +15,7 @@ from routes.escalation import escalation_bp, auto_escalate_calls
 # from routes.knowledge_base import knowledge_bp
 # from routes.form_filling import form_filling_bp
 from routes.streamlit import streamlit_bp
+from routes.audio_routes import audio_bp
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -36,6 +37,7 @@ app.register_blueprint(escalation_bp, url_prefix="/api/escalation")
 # app.register_blueprint(knowledge_bp, url_prefix="/api/knowledge")
 # app.register_blueprint(form_filling_bp, url_prefix="/api/form-filling")
 app.register_blueprint(streamlit_bp, url_prefix="/api/streamlit")
+app.register_blueprint(audio_bp, url_prefix="/api/audio")
 
 # Initialize Scheduler (Fix: Pass `app` explicitly)
 scheduler = BackgroundScheduler()
