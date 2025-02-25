@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 import os
-from audio_analysis import transcribe_audio, analyze_sentiment
+from audio_analysis import transcribe_audio, analyze_sentiment, analyze_emotion
 
 audio_bp = Blueprint('audio', __name__)
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "uploads")
@@ -18,24 +18,20 @@ def analyze_audio_endpoint():
         return jsonify({"error": "No audio file provided"}), 400
 
     audio_file = request.files["audio"]
-    # Use a safe filename if needed (here we assume filename is safe)
     file_path = os.path.join(UPLOAD_FOLDER, audio_file.filename)
     print("Saving uploaded file to:", file_path)
     audio_file.save(file_path)
-    
-    # Verify the file exists
-    if not os.path.exists(file_path):
-        return jsonify({"error": "File saving failed"}), 500
-    else:
-        print("File saved successfully.")
 
     try:
-        # Transcribe the audio and analyze sentiment
+        # Process the audio
         transcription = transcribe_audio(file_path)
         sentiment_result = analyze_sentiment(transcription)
+        emotion_result = analyze_emotion(transcription)
+
         response = {
             "transcription": transcription,
-            "sentiment": sentiment_result
+            "sentiment": sentiment_result,
+            "emotions": emotion_result
         }
         return jsonify(response)
     except Exception as e:
