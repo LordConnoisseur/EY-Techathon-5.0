@@ -21,6 +21,7 @@ import SearchInterface from "./pages/SearchInterface";
 import ArticleView from "./pages/ArticleView";
 import KnowledgeGraph from "./pages/KnowledgeGraph";
 import ContentManagement from "./pages/ContentManagement";
+import AudioAnalysisDashboard from "./pages/AudioAnalysisDashboard";
 
 function App() {
   return (
@@ -28,18 +29,18 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/call-management" element={<CallManagementDashboard />}>
-            <Route path="call-queue" element={<CallQueueDashboard />} />
-            <Route path="call-scheduling" element={<CallScheduling />} />
-            <Route path="priority-management" element={<PriorityManagement />} />
-            <Route path="sla-tracking" element={<SLATracking />} />
-          </Route>
-          <Route path="/knowledge-base" element={<KnowledgeBaseDashboard />}>
-            <Route path="search" element={<SearchInterface />} />
-            <Route path="article-view" element={<ArticleView />} />
-            <Route path="knowledge-graph" element={<KnowledgeGraph />} />
-            <Route path="content-management" element={<ContentManagement />} />
-          </Route>
-          <Route path="/client-analysis" element={<ClientAnalysisDashboard />}>
+          <Route path="call-queue" element={<CallQueueDashboard />} />
+          <Route path="call-scheduling" element={<CallScheduling />} />
+          <Route path="priority-management" element={<PriorityManagement />} />
+          <Route path="sla-tracking" element={<SLATracking />} />
+        </Route>
+        <Route path="/knowledge-base" element={<KnowledgeBaseDashboard />}>
+          <Route path="search" element={<SearchInterface />} />
+          <Route path="article-view" element={<ArticleView />} />
+          <Route path="knowledge-graph" element={<KnowledgeGraph />} />
+          <Route path="content-management" element={<ContentManagement />} />
+        </Route>
+        <Route path="/client-analysis" element={<ClientAnalysisDashboard />}>
           <Route path="sentiment-dashboard" element={<SentimentDashboard />} />
           <Route path="client-interaction-history" element={<ClientInteractionHistory />} />
           <Route path="escalation-management" element={<EscalationManagement />} />
@@ -51,7 +52,9 @@ function App() {
           <Route path="data-validation" element={<DataValidation />} />
           <Route path="batch-processing" element={<BatchProcessing />} />
         </Route>
-        </Routes>
+        {/* New Route for Audio Analysis */}
+        <Route path="/audio-analysis" element={<AudioAnalysisDashboard />} />
+      </Routes>
     </Router>
   );
 }
