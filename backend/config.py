@@ -5,3 +5,5 @@ class Config:
     SQLALCHEMY_DATABASE_URI = "sqlite:///database.db"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     UPLOAD_FOLDER = os.path.join(os.getcwd(), "static/uploads")
+    JWT_SECRET_KEY="abcdabcd"
+    

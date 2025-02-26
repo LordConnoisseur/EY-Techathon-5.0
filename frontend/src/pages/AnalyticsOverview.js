@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { Pie } from "react-chartjs-2";
+import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+
+// Register chart elements
+Chart.register(ArcElement, Tooltip, Legend);
 
 function AnalyticsOverview() {
   const [analytics, setAnalytics] = useState({
@@ -21,21 +26,68 @@ function AnalyticsOverview() {
     fetchAnalyticsData();
   }, []);
 
+  // Prepare chart data
+  const chartData = {
+    labels: ["Resolved", "Escalated"],
+    datasets: [
+      {
+        data: [analytics.resolved, analytics.escalated],
+        backgroundColor: ["#6EC6FF", "#FF8BCB"], // Light blue & pink
+        hoverBackgroundColor: ["#4BA3D8", "#FF5FA8"], // Darker shades for hover effect
+        borderWidth: 3,
+        borderColor: "#FFFFFF", // White border for a cleaner look
+        hoverOffset: 10, // Creates a 3D-like effect
+      },
+    ],
+  };
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          font: {
+            size: 14,
+          },
+          color: "#333",
+        },
+      },
+      tooltip: {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        bodyFont: {
+          size: 14,
+        },
+      },
+    },
+  };
+
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Analytics Overview</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div className="bg-blue-100 p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">Total Interactions</h3>
-          <p>{analytics.totalInteractions}</p>
+    <div className="p-6 bg-white rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Analytics Overview</h2>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {/* Textual Analytics Overview */}
+        <div className="flex flex-col space-y-4">
+          <div className="p-4 bg-blue-100 rounded-lg shadow-md text-center">
+            <h3 className="text-lg font-semibold text-blue-800">Total Interactions</h3>
+            <p className="text-xl font-bold">{analytics.totalInteractions}</p>
+          </div>
+          <div className="p-4 bg-pink-100 rounded-lg shadow-md text-center">
+            <h3 className="text-lg font-semibold text-blue-800">Resolved</h3>
+            <p className="text-xl font-bold">{analytics.resolved}</p>
+          </div>
+          <div className="p-4 bg-red-100 rounded-lg shadow-md text-center">
+            <h3 className="text-lg font-semibold text-red-800">Escalated</h3>
+            <p className="text-xl font-bold">{analytics.escalated}</p>
+          </div>
         </div>
-        <div className="bg-green-100 p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">Resolved</h3>
-          <p>{analytics.resolved}</p>
-        </div>
-        <div className="bg-red-100 p-4 rounded shadow">
-          <h3 className="text-lg font-semibold">Escalated</h3>
-          <p>{analytics.escalated}</p>
+
+        {/* Pie Chart */}
+        <div className="flex justify-center items-center">
+          <div className="w-80 h-80">
+            <Pie data={chartData} options={chartOptions} />
+          </div>
         </div>
       </div>
     </div>
