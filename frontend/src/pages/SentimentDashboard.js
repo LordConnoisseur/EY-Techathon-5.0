@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
+import './SentimentDashboard.css'; // Import the same CSS file for consistency
 
 function SentimentDashboard() {
   const [users, setUsers] = useState([]);
@@ -76,95 +77,93 @@ function SentimentDashboard() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">📊 Sentiment Dashboard</h2>
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Sentiment Dashboard</h1>
+      </header>
 
-      {/* User Selection Dropdown */}
-      <div className="mb-6 text-center">
-        <label className="font-semibold text-lg mr-3">Select User:</label>
-        <select
-          value={selectedUser}
-          onChange={(e) => setSelectedUser(e.target.value)}
-          className="border border-gray-400 p-2 rounded-lg"
-        >
-          <option value="">All Users</option>
-          {users.map((user) => (
-            <option key={user.id} value={user.name}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      {/* Sentiment Trend Chart */}
-      <div className="mb-6">
-        {chartData.labels ? (
-          <div className="w-full mx-auto" style={{ maxWidth: '700px', height: '300px' }}>
-            <Line data={chartData} options={{ maintainAspectRatio: false }} />
-          </div>
-        ) : (
-          <p className="text-center text-gray-500">📉 No sentiment data available.</p>
-        )}
-      </div>
-
-      {/* Sentiment History Table */}
-      <div className="overflow-x-auto">
-        <h3 className="text-xl font-semibold mb-4 text-gray-700">📜 Sentiment History</h3>
-        <table className="table-auto w-full border border-gray-300 shadow-md">
-          <thead className="bg-gray-100">
-            <tr className="text-gray-700">
-              <th className="border border-gray-300 px-4 py-2">📅 Timestamp</th>
-              <th className="border border-gray-300 px-4 py-2">💬 Feedback</th>
-              <th className="border border-gray-300 px-4 py-2">📊 Sentiment Score</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sentimentData.map((feedback, index) => (
-              <tr key={index} className="text-center">
-                <td className="border border-gray-300 px-4 py-2">{new Date(feedback.timestamp).toLocaleString()}</td>
-                <td className="border border-gray-300 px-4 py-2">{feedback.feedback_text}</td>
-                <td
-                  className={`border border-gray-300 px-4 py-2 font-semibold ${
-                    feedback.sentiment_score > 0
-                      ? 'text-green-600'
-                      : feedback.sentiment_score < 0
-                      ? 'text-red-600'
-                      : 'text-gray-600'
-                  }`}
-                >
-                  {feedback.sentiment_score}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Button to Fetch a Joke */}
-      <div className="text-center mt-6">
-        <button
-          onClick={fetchJoke}
-          className="bg-yellow-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-yellow-600 transition duration-300"
-        >
-          Need a Boost? 🤗
-        </button>
-      </div>
-
-      {/* Joke Modal */}
-      {isJokeOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm text-center">
-            <h3 className="text-lg font-semibold mb-4">😆 Here's a Joke for You!</h3>
-            <p className="text-gray-700">{joke}</p>
-            <button
-              onClick={() => setIsJokeOpen(false)}
-              className="mt-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-600 transition duration-300"
+      <main className="dashboard-main">
+        <div className="glass-card sentiment-container">
+          {/* User Selection Dropdown */}
+          <div className="user-selection">
+            <label className="input-label">Select User:</label>
+            <select
+              value={selectedUser}
+              onChange={(e) => setSelectedUser(e.target.value)}
+              className="glass-input"
             >
-              Close
+              <option value="">All Users</option>
+              {users.map((user) => (
+                <option key={user.id} value={user.name}>
+                  {user.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Sentiment Trend Chart */}
+          <div className="chart-container">
+            {chartData.labels ? (
+              <Line data={chartData} options={{ maintainAspectRatio: false }} />
+            ) : (
+              <p className="no-data">📉 No sentiment data available.</p>
+            )}
+          </div>
+
+          {/* Sentiment History Table */}
+          <div className="table-container">
+            <h3 className="table-title">Sentiment History</h3>
+            <table className="sentiment-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Feedback</th>
+                  <th>Sentiment Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sentimentData.map((feedback, index) => (
+                  <tr key={index}>
+                    <td>{new Date(feedback.timestamp).toLocaleString()}</td>
+                    <td>{feedback.feedback_text}</td>
+                    <td
+                      className={
+                        feedback.sentiment_score > 0
+                          ? 'positive'
+                          : feedback.sentiment_score < 0
+                          ? 'negative'
+                          : 'neutral'
+                      }
+                    >
+                      {feedback.sentiment_score}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Button to Fetch a Joke */}
+          <div className="joke-button-container">
+            <button onClick={fetchJoke} className="joke-button">
+              Need a Boost? 🤗
             </button>
           </div>
+
+          {/* Joke Modal */}
+          {isJokeOpen && (
+            <div className="joke-modal-overlay">
+              <div className="joke-modal">
+                <h3>Here's a Joke for You!</h3>
+                <p>{joke}</p>
+                <button onClick={() => setIsJokeOpen(false)} className="close-button">
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-      )}
+      </main>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./AutoResponse.css"; // Import external CSS
 
 function AutoResponse() {
   const [message, setMessage] = useState("");
@@ -34,19 +35,19 @@ function AutoResponse() {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-purple-400 to-indigo-500">
-      <div className="p-6 bg-white rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-bold mb-4 text-center">AI-Powered Auto Response</h2>
+    <div className="auto-response-wrapper">
+      <div className="glass-card auto-response-container">
+        <h2 className="auto-response-title">AI-Powered Auto Response</h2>
         
         <textarea
-          className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-indigo-300 outline-none"
+          className="auto-response-textarea"
           placeholder="Type your message..."
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
 
         <button
-          className="mt-4 w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
+          className="auto-response-button"
           onClick={fetchSuggestion}
           disabled={loading}
         >
@@ -54,9 +55,9 @@ function AutoResponse() {
         </button>
 
         {suggestion && (
-          <div className="mt-4 bg-gray-100 p-3 rounded-lg">
-            <h3 className="text-md font-semibold text-gray-700">Suggested Response:</h3>
-            <p className="text-gray-800 mt-2">{suggestion}</p>
+          <div className="auto-response-suggestion">
+            <h3 className="suggestion-title">Suggested Response:</h3>
+            <p className="suggestion-text">{suggestion}</p>
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./EscalationManagement.css"; // Import the same CSS file for consistency
 
 function EscalationManagement() {
   const [escalatedCalls, setEscalatedCalls] = useState([]);
@@ -21,35 +22,43 @@ function EscalationManagement() {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Escalation Management</h2>
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 text-left">Client</th>
-            <th className="px-4 py-2 text-left">Issue</th>
-            <th className="px-4 py-2 text-left">Status</th>
-            <th className="px-4 py-2 text-left">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {escalatedCalls.map((call) => (
-            <tr key={call.id}>
-              <td className="px-4 py-2">{call.client}</td>
-              <td className="px-4 py-2">{call.issue}</td>
-              <td className="px-4 py-2">{call.status}</td>
-              <td className="px-4 py-2">
-                <button
-                  onClick={() => handleResolve(call.id)}
-                  className="bg-green-500 text-white px-4 py-2 rounded"
-                >
-                  Resolve
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Escalation Management</h1>
+      </header>
+
+      <main className="dashboard-main">
+        <div className="glass-card p-6">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">Escalation Management</h2>
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="px-4 py-2 text-left">Client</th>
+                <th className="px-4 py-2 text-left">Issue</th>
+                <th className="px-4 py-2 text-left">Status</th>
+                <th className="px-4 py-2 text-left">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {escalatedCalls.map((call) => (
+                <tr key={call.id} className="hover:bg-gray-100 transition-colors">
+                  <td className="px-4 py-2 border border-gray-300">{call.client}</td>
+                  <td className="px-4 py-2 border border-gray-300">{call.issue}</td>
+                  <td className="px-4 py-2 border border-gray-300">{call.status}</td>
+                  <td className="px-4 py-2 border border-gray-300">
+                    <button
+                      onClick={() => handleResolve(call.id)}
+                      className="glass-card action-button"
+                    >
+                      Resolve
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./ContentManagement.css"; // Import the same external CSS
 
 function ContentManagement() {
   const [articles, setArticles] = useState([
@@ -16,27 +17,35 @@ function ContentManagement() {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Content Management</h2>
-      <button
-        onClick={handleAddArticle}
-        className="bg-green-500 text-white px-4 py-2 rounded mb-4"
-      >
-        Add Article
-      </button>
-      <ul>
-        {articles.map((article) => (
-          <li key={article.id} className="mb-2">
-            <span>{article.title}</span>
-            <button
-              onClick={() => handleDeleteArticle(article.id)}
-              className="bg-red-500 text-white px-2 py-1 rounded ml-4"
-            >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Content Management</h1>
+      </header>
+
+      <main className="dashboard-main">
+        <div className="glass-card">
+          <button
+            onClick={handleAddArticle}
+            className="action-button"
+          >
+            Add Article
+          </button>
+
+          <ul className="content-list">
+            {articles.map((article) => (
+              <li key={article.id} className="glass-card content-item">
+                <span className="content-title">{article.title}</span>
+                <button
+                  onClick={() => handleDeleteArticle(article.id)}
+                  className="delete-button"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </main>
     </div>
   );
 }

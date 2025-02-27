@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import CallManagementDashboard from "./pages/CallManagementDashboard";
 import CallQueueDashboard from "./pages/CallQueueDashboard";
@@ -31,45 +31,68 @@ import FeedbackAnalysis from "./pages/FeedbackAnalysis";
 import AutoResponse from "./pages/AutoResponse";
 import AudioAnalysisDashboard from "./pages/AudioAnalysisDashboard";
 
+import { isAuthenticated, getRoles } from "./authService";
+
+function ProtectedRoute({ element, allowedRoles }) {
+    const isAuth = isAuthenticated();
+    const userRoles = getRoles();
+
+    if (!isAuth) {
+        return <Navigate to="/login" replace />;
+    }
+
+    if (allowedRoles && !allowedRoles.some(role => userRoles.includes(role))) {
+        return <Navigate to="/" replace />;
+    }
+
+    return element;
+}
+
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/call-management" element={<CallManagementDashboard />}>
-          <Route path="call-queue" element={<CallQueueDashboard />} />
-          <Route path="call-scheduling" element={<CallScheduling />} />
-          <Route path="priority-management" element={<PriorityManagement />} />
-          <Route path="sla-tracking" element={<SLATracking />} />
-        </Route>
-        <Route path="/knowledge-base" element={<KnowledgeBaseDashboard />}>
-          <Route path="search" element={<SearchInterface />} />
-          <Route path="article-view" element={<ArticleView />} />
-          <Route path="knowledge-graph" element={<KnowledgeGraph />} />
-          <Route path="content-management" element={<ContentManagement />} />
-        </Route>
-        <Route path="/client-analysis" element={<ClientAnalysisDashboard />}>
-          <Route path="sentiment-dashboard" element={<SentimentDashboard />} />
-          <Route path="client-interaction-history" element={<ClientInteractionHistory />} />
-          <Route path="escalation-management" element={<EscalationManagement />} />
-          <Route path="analytics-overview" element={<AnalyticsOverview />} />
-        </Route>
-        <Route path="/data-processing" element={<DataProcessingDashboard />}>
-          <Route path="document-upload" element={<DocumentUpload />} />
-          {/* <Route path="form_filling" element={<FormProcessing />} /> */}
-          <Route path="data-validation" element={<DataValidation />} />
-          <Route path="batch-processing" element={<BatchProcessing />} />
-        </Route>
-        <Route path="/clientdashboard" element={<ClientDashboard />} />
-        <Route path="/feedbackanalysis" element={<FeedbackAnalysis />} />
+        {/* Default route to Login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/:role/dashboard" element={<Dashboard />} />
-        <Route path="/autoresponse" element={<AutoResponse />} />
-        <Route path="/form_filling" element={<FormProcessing />} />
 
-        {/* New Route for Audio Analysis */}
-        <Route path="/audio-analysis" element={<AudioAnalysisDashboard />} />
+        {/* Role-based Dashboards */}
+        <Route path="/admin/dashboard" element={<ProtectedRoute element={<AdminDashboard />} allowedRoles={['admin']} />} />
+        <Route path="/manager/dashboard" element={<ProtectedRoute element={<ManagerDashboard />} allowedRoles={['manager']} />} />
+        <Route path="/agent/dashboard" element={<ProtectedRoute element={<AgentDashboard />} allowedRoles={['agent']} />} />
+
+        {/* Other Routes with Protection */}
+        <Route path="/call-management" element={<ProtectedRoute element={<CallManagementDashboard />} allowedRoles={['agent', 'manager']} />}/>
+        <Route path="/call-queue" element={<CallQueueDashboard />} />
+        <Route path="/call-scheduling" element={<CallScheduling />} />
+        <Route path="/priority-management" element={<PriorityManagement />} />
+        <Route path="/sla-tracking" element={<SLATracking />} />
+
+        <Route path="/knowledge-base" element={<ProtectedRoute element={<KnowledgeBaseDashboard />} />}/>
+        <Route path="/search" element={<SearchInterface />} />
+        <Route path="/article-view" element={<ArticleView />} />
+        <Route path="/knowledge-graph" element={<KnowledgeGraph />} />
+        <Route path="/content-management" element={<ContentManagement />} />
+
+
+        <Route path="/client-analysis" element={<ProtectedRoute element={<ClientAnalysisDashboard />} allowedRoles={['manager', 'admin','agent']} />}/>
+        <Route path="/sentiment-dashboard" element={<SentimentDashboard />} />
+        <Route path="/client-interaction-history" element={<ClientInteractionHistory />} />
+        <Route path="/escalation-management" element={<EscalationManagement />} />
+        <Route path="/analytics-overview" element={<AnalyticsOverview />} />
+
+
+        <Route path="/data-processing" element={<ProtectedRoute element={<DataProcessingDashboard />} allowedRoles={['admin', 'manager','agent']} />}/>
+        <Route path="/document-upload" element={<DocumentUpload />} />
+        <Route path="/data-validation" element={<DataValidation />} />
+        <Route path="/batch-processing" element={<BatchProcessing />} />
+
+        <Route path="/clientdashboard" element={<ProtectedRoute element={<ClientDashboard />} allowedRoles={['agent']} />} />
+        <Route path="/feedbackanalysis" element={<ProtectedRoute element={<FeedbackAnalysis />} allowedRoles={['agent','manager', 'admin']} />} />
+        <Route path="/autoresponse" element={<ProtectedRoute element={<AutoResponse />} allowedRoles={['agent']} />} />
+        <Route path="/form_filling" element={<ProtectedRoute element={<FormProcessing />} allowedRoles={['agent']} />} />
+        <Route path="/audio-analysis" element={<ProtectedRoute element={<AudioAnalysisDashboard />} allowedRoles={['agent','manager']} />} />
       </Routes>
     </Router>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './ClientDashboard.css'; // Import external CSS
 
 function ClientDashboard() {
   const [feedback, setFeedback] = useState('');
@@ -47,129 +48,53 @@ function ClientDashboard() {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>Client Dashboard</h1>
-      <div style={styles.formContainer}>
-        <h2 style={styles.subHeading}>Submit Feedback</h2>
-        {error && <p style={styles.errorText}>{error}</p>}
-        <form onSubmit={handleSubmit} style={styles.form}>
-          <div>
-            <label style={styles.label}>Language:</label>
-            <select value={language} onChange={(e) => setLanguage(e.target.value)} style={styles.select}>
-              <option value="en">English</option>
-              <option value="hi">Hindi</option>
-              <option value="bn">Bengali</option>
-              <option value="gu">Gujarati</option>
-            </select>
-          </div>
-          <div>
-            <label style={styles.label}>Feedback:</label>
-            <textarea
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              required
-              style={styles.textarea}
-            />
-          </div>
-          <button type="submit" style={styles.button}>Submit Feedback</button>
-        </form>
-        {sentiment !== null && (
-          <div style={styles.resultContainer}>
-            <h3>Sentiment Analysis Result</h3>
-            <p><strong>Sentiment Score:</strong> {sentiment}</p>
-            {translatedText && <p><strong>Translated Text:</strong> {translatedText}</p>}
-          </div>
-        )}
-      </div>
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Client Dashboard</h1>
+      </header>
+
+      <main className="dashboard-main">
+        <div className="glass-card form-container">
+          <h2 className="sub-heading">Submit Feedback</h2>
+          {error && <p className="error-text">{error}</p>}
+          <form onSubmit={handleSubmit} className="form">
+            <div>
+              <label className="label">Language:</label>
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="select"
+              >
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="bn">Bengali</option>
+                <option value="gu">Gujarati</option>
+              </select>
+            </div>
+            <div>
+              <label className="label">Feedback:</label>
+              <textarea
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                required
+                className="textarea"
+              />
+            </div>
+            <button type="submit" className="action-button">
+              Submit Feedback
+            </button>
+          </form>
+          {sentiment !== null && (
+            <div className="result-container">
+              <h3>Sentiment Analysis Result</h3>
+              <p><strong>Sentiment Score:</strong> {sentiment}</p>
+              {translatedText && <p><strong>Translated Text:</strong> {translatedText}</p>}
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 }
-
-const styles = {
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    padding: '20px',
-    backgroundColor: '#f4f4f4',
-    minHeight: '100vh',
-  },
-  heading: {
-    fontSize: '32px',
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: '20px',
-  },
-  subHeading: {
-    fontSize: '22px',
-    fontWeight: 'bold',
-    color: '#444',
-    marginBottom: '10px',
-  },
-  formContainer: {
-    backgroundColor: '#fff',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-    maxWidth: '450px',
-    width: '100%',
-    textAlign: 'center',
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    width: '100%',
-  },
-  label: {
-    fontSize: '14px',
-    fontWeight: 'bold',
-    marginBottom: '8px',
-    color: '#555',
-    alignSelf: 'flex-start',
-  },
-  select: {
-    width: '100%',
-    padding: '10px',
-    marginBottom: '12px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    fontSize: '14px',
-    backgroundColor: '#fff',
-  },
-  textarea: {
-    width: '100%',
-    padding: '10px',
-    marginBottom: '12px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    fontSize: '14px',
-    resize: 'vertical',
-    minHeight: '80px',
-  },
-  button: {
-    width: '100%',
-    padding: '12px',
-    backgroundColor: '#28a745',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-  },
-  errorText: {
-    color: 'red',
-    fontSize: '14px',
-    marginBottom: '10px',
-  },
-  resultContainer: {
-    marginTop: '20px',
-    padding: '15px',
-    backgroundColor: '#f8f9fa',
-    borderRadius: '5px',
-    textAlign: 'left',
-  }
-};
 
 export default ClientDashboard;

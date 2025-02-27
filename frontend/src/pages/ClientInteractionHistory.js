@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./ClientInteractionHistory.css"; // Import the same CSS file
 
 function ClientInteractionHistory() {
   const [interactions, setInteractions] = useState([]);
@@ -17,28 +18,36 @@ function ClientInteractionHistory() {
   }, []);
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Client Interaction History</h2>
-      <table className="min-w-full bg-white border border-gray-200">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 text-left">Client</th>
-            <th className="px-4 py-2 text-left">Date</th>
-            <th className="px-4 py-2 text-left">Type</th>
-            <th className="px-4 py-2 text-left">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {interactions.map((interaction) => (
-            <tr key={interaction.id}>
-              <td className="px-4 py-2">{interaction.client}</td>
-              <td className="px-4 py-2">{interaction.date}</td>
-              <td className="px-4 py-2">{interaction.type}</td>
-              <td className="px-4 py-2">{interaction.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Client Interaction History</h1>
+      </header>
+
+      <main className="dashboard-main">
+        <div className="glass-card p-6">
+          <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Client Interaction History</h2>
+          <table className="min-w-full">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 text-left">Client</th>
+                <th className="px-4 py-2 text-left">Date</th>
+                <th className="px-4 py-2 text-left">Type</th>
+                <th className="px-4 py-2 text-left">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {interactions.map((interaction) => (
+                <tr key={interaction.id}>
+                  <td className="px-4 py-2">{interaction.client}</td>
+                  <td className="px-4 py-2">{interaction.date}</td>
+                  <td className="px-4 py-2">{interaction.type}</td>
+                  <td className="px-4 py-2">{interaction.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </main>
     </div>
   );
 }

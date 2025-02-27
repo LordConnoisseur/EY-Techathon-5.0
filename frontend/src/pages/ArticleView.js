@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./ArticleView.css"; // Import the same CSS file for consistency
 
 function ArticleView() {
   const [question, setQuestion] = useState("");
@@ -6,7 +7,7 @@ function ArticleView() {
 
   const handleAsk = async () => {
     if (!question) return;
-    
+
     try {
       const response = await fetch("http://127.0.0.1:5000/api/knowledge/ask", {
         method: "POST",
@@ -21,17 +22,34 @@ function ArticleView() {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Smart Knowledge Base</h2>
-      <input
-        type="text"
-        className="border p-2 w-full mb-2"
-        placeholder="Ask a question..."
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-      />
-      <button className="bg-blue-500 text-white p-2" onClick={handleAsk}>Ask</button>
-      {answer && <p className="mt-4 p-4 bg-gray-200">{answer}</p>}
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Smart Knowledge Base</h1>
+      </header>
+
+      <main className="dashboard-main">
+        <div className="glass-card knowledge-container">
+          <h2 className="knowledge-title">Ask a Question</h2>
+          <div className="input-group">
+            <input
+              type="text"
+              className="glass-input"
+              placeholder="Enter your question..."
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+            />
+          </div>
+          <button className="knowledge-button" onClick={handleAsk}>
+            Ask
+          </button>
+          {answer && (
+            <div className="answer-container">
+              <h3 className="answer-title">Answer</h3>
+              <p className="answer-text">{answer}</p>
+            </div>
+          )}
+        </div>
+      </main>
     </div>
   );
 }

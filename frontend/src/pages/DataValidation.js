@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./DataValidation.css"; // Import external CSS
 
 function DataValidation() {
   const [data, setData] = useState({
@@ -29,48 +30,53 @@ function DataValidation() {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Data Validation</h2>
-      <div className="bg-gray-100 p-6 rounded shadow">
-        <div className="mb-4">
-          <label className="block text-sm font-semibold">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={data.name}
-            onChange={handleChange}
-            className="p-2 border rounded w-full"
-          />
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Data Validation</h1>
+      </header>
+
+      <main className="dashboard-main">
+        <div className="glass-card validation-container">
+          <div className="input-group">
+            <label className="input-label">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={data.name}
+              onChange={handleChange}
+              className="input-field"
+            />
+          </div>
+          <div className="input-group">
+            <label className="input-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              value={data.email}
+              onChange={handleChange}
+              className="input-field"
+            />
+          </div>
+          <div className="input-group">
+            <label className="input-label">Phone</label>
+            <input
+              type="text"
+              name="phone"
+              value={data.phone}
+              onChange={handleChange}
+              className="input-field"
+            />
+          </div>
+          <button
+            onClick={validateData}
+            className={`validation-button ${
+              valid ? "valid" : "invalid"
+            }`}
+          >
+            Validate Data
+          </button>
         </div>
-        <div className="mb-4">
-          <label className="block text-sm font-semibold">Email</label>
-          <input
-            type="email"
-            name="email"
-            value={data.email}
-            onChange={handleChange}
-            className="p-2 border rounded w-full"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-sm font-semibold">Phone</label>
-          <input
-            type="text"
-            name="phone"
-            value={data.phone}
-            onChange={handleChange}
-            className="p-2 border rounded w-full"
-          />
-        </div>
-        <button
-          onClick={validateData}
-          className={`${
-            valid ? "bg-green-500" : "bg-red-500"
-          } text-white p-2 rounded`}
-        >
-          Validate Data
-        </button>
-      </div>
+      </main>
     </div>
   );
 }

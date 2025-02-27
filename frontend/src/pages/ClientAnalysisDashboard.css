@@ -1,0 +1,134 @@
+/* Reset and Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #002244, #0056b3);
+    color: #ffffff;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Dashboard Layout */
+  .dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  .dashboard-main {
+    flex: 1;
+    width: 100%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .dashboard-content {
+    width: 100%;
+    padding: 2rem;
+  }
+  
+  .dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #ffc107; /* Accent Yellow */
+    margin-bottom: 2rem;
+  }
+  
+  /* Glassmorphic Card Style */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  
+  .glass-card:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-5px);
+  }
+  
+  /* Navigation Grid */
+  .navigation-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    margin-bottom: 2rem;
+  }
+  
+  .navigation-link {
+    padding: 2rem;
+    text-align: center;
+    text-decoration: none;
+    color: #ffffff;
+    transition: all 0.3s ease;
+  }
+  
+  .navigation-link:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffc107; /* Accent Yellow */
+  }
+  
+  .navigation-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffc107; /* Accent Yellow */
+    margin-bottom: 1rem;
+  }
+  
+  /* Subpage Content */
+  .subpage-content {
+    padding: 2rem;
+    width: 100%;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 1200px) {
+    .navigation-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .dashboard-title {
+      font-size: 2rem;
+    }
+  
+    .navigation-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .navigation-link {
+      padding: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .dashboard-main {
+      padding: 1rem;
+    }
+  
+    .dashboard-content {
+      padding: 1rem;
+    }
+  
+    .navigation-link {
+      padding: 1rem;
+    }
+  }

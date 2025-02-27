@@ -1,52 +1,67 @@
-// src/Login.js
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../auth';
-import './Login.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login } from "../authService";
+import "./Login.css";
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
+function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            const roles = await login(email, password);
+            const { roles } = await login(email, password);
 
-            if (roles.includes('admin')) {
-                navigate('/admin/dashboard');
-            } else if (roles.includes('user')) {
-                navigate('/manager/dashboard');
-            } else if (roles.includes('agent')) {
-                navigate('/agent/dashboard');
+            if (roles.includes("admin")) {
+                navigate("/admin/dashboard");
+            } else if (roles.includes("manager")) {
+                navigate("/manager/dashboard");
+            } else if (roles.includes("agent")) {
+                navigate("/agent/dashboard");
             } else {
-                navigate('/'); // Default route if role is undefined
+                navigate("/clientdashboard");
             }
-        } catch (error) {
-            setMessage('Invalid email or password');
+        } catch (err) {
+            setError("Invalid credentials. Please try again.");
         }
     };
 
     return (
-        <div className="form-container">
-            <h2>Login</h2>
-            <form onSubmit={handleLogin}>
-                <div className="input-group">
-                    <label>Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </div>
-                <div className="input-group">
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            {message && <p>{message}</p>}
+        <div className="login-wrapper">
+            <div className="login-container">
+                <h2>Welcome Back</h2>
+                <p className="subtext">Log in to access your account</p>
+
+                {error && <p className="error-message">{error}</p>}
+
+                <form onSubmit={handleSubmit}>
+                    <div className="input-group">
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="Email Address"
+                            required
+                        />
+                    </div>
+                    <div className="input-group">
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="Password"
+                            required
+                        />
+                    </div>
+                    <button type="submit" className="login-btn">Login</button>
+                </form>
+
+                <a href="#" className="forgot-password">Forgot your password?</a>
+            </div>
         </div>
     );
-};
+}
 
 export default Login;

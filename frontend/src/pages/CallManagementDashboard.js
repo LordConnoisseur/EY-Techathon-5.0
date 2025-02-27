@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../components/Sidebar"; // Adjust path as necessary
-import Header from "../components/Header"; // Adjust path as necessary
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
+import "./CallManagementDashboard.css"; // Import external CSS
 
 function CallManagementDashboard() {
   const [stats, setStats] = useState({
@@ -23,12 +22,6 @@ function CallManagementDashboard() {
 
   useEffect(() => {
     fetchCallStats();
-
-    // const interval = setInterval(() => {
-    //   fetchCallStats();
-    // }, 50); // Adjust the refresh rate as required
-
-    // return () => clearInterval(interval);
   }, []);
 
   const fetchCallStats = async () => {
@@ -83,71 +76,89 @@ function CallManagementDashboard() {
   };
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1">
-        <Header />
-        <div className="p-6">
-          <h1 className="text-2xl font-bold mb-4">Call Management Dashboard</h1>
+    <div className="dashboard-wrapper">
+      {/* Header with Dashboard Title */}
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Call Management Dashboard</h1>
+      </header>
 
-          {/* Navigation Links */}
-          <div className="flex space-x-4 mb-6">
-            <Link to="call-queue" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Call Queue</Link>
-            <Link to="call-scheduling" className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Call Scheduling</Link>
-            <Link to="priority-management" className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Priority Management</Link>
-            <Link to="sla-tracking" className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">SLA Tracking</Link>
+      {/* Main Content */}
+      <main className="dashboard-main">
+        {/* Call Statistics Grid */}
+        <div className="stats-grid">
+          <div className="glass-card stat-card">
+            <h2 className="stat-title">Pending Calls</h2>
+            <p className="stat-value">{stats.pending}</p>
           </div>
-
-          {/* Call Statistics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <div className="bg-blue-100 p-4 rounded shadow"><h2 className="text-xl font-semibold">Pending Calls</h2><p>{stats.pending}</p></div>
-            <div className="bg-yellow-100 p-4 rounded shadow"><h2 className="text-xl font-semibold">In Progress Calls</h2><p>{stats.inProgress}</p></div>
-            <div className="bg-green-100 p-4 rounded shadow"><h2 className="text-xl font-semibold">Resolved Issues</h2><p>{stats.resolved}</p></div>
-            <div className="bg-red-100 p-4 rounded shadow"><h2 className="text-xl font-semibold">Escalated Calls</h2><p>{stats.escalated}</p></div>
+          <div className="glass-card stat-card">
+            <h2 className="stat-title">In Progress Calls</h2>
+            <p className="stat-value">{stats.inProgress}</p>
           </div>
-
-          {/* Automated Form Filling Section */}
-          <div className="bg-gray-100 p-6 rounded shadow">
-            <h2 className="text-xl font-semibold mb-4">Automated Form Filling (AI Bot)</h2>
-
-            {/* Call Transcript Input */}
-            <textarea
-              placeholder="Paste the call transcript here..."
-              value={transcript}
-              onChange={handleTranscriptChange}
-              className="w-full h-24 p-2 border rounded mb-4"
-            />
-
-            {/* Button Wrapper (Flexbox Centered) */}
-            <div className="flex justify-end">
-              <button 
-                onClick={extractFormDetails} 
-                className="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 transition"
-              >
-                {loading ? "Extracting..." : "Extract Details"}
-              </button>
-            </div>
-
-            {/* Error Message */}
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-
-            {/* Display Extracted Form Data */}
-            {formData.customerName && (
-              <div className="mt-6">
-                <label className="block text-lg font-semibold">Customer Name:</label>
-                <input type="text" value={formData.customerName} className="border p-2 rounded w-full mb-2" readOnly />
-
-                <label className="block text-lg font-semibold">Issue:</label>
-                <textarea value={formData.issue} className="border p-2 rounded w-full mb-2" readOnly />
-
-                <label className="block text-lg font-semibold">Resolution Notes:</label>
-                <textarea value={formData.resolutionNotes} className="border p-2 rounded w-full mb-2" readOnly />
-              </div>
-            )}
+          <div className="glass-card stat-card">
+            <h2 className="stat-title">Resolved Issues</h2>
+            <p className="stat-value">{stats.resolved}</p>
           </div>
-          <Outlet />
+          <div className="glass-card stat-card">
+            <h2 className="stat-title">Escalated Calls</h2>
+            <p className="stat-value">{stats.escalated}</p>
+          </div>
         </div>
-      </div>
+
+        {/* Automated Form Filling Section
+        <div className="glass-card form-section">
+          <h2 className="section-title">Automated Form Filling (AI Bot)</h2>
+
+          Call Transcript Input -- Comment this out
+          <textarea
+            placeholder="Paste the call transcript here..."
+            value={transcript}
+            onChange={handleTranscriptChange}
+            className="transcript-input"
+          />
+
+          Extract Details Button -- Comment this out
+          <button
+            onClick={extractFormDetails}
+            className="glass-card action-button"
+            disabled={loading}
+          >
+            {loading ? "Extracting..." : "Extract Details"}
+          </button>
+
+          Error Message -- Comment this out
+          {error && <p className="error-message">{error}</p>}
+
+          Display Extracted Form Data -- Comment this out
+          {formData.customerName && (
+            <div className="form-data">
+              <label>Customer Name:</label>
+              <input type="text" value={formData.customerName} readOnly />
+
+              <label>Issue:</label>
+              <textarea value={formData.issue} readOnly />
+
+              <label>Resolution Notes:</label>
+              <textarea value={formData.resolutionNotes} readOnly />
+            </div>
+          )}
+        </div> */}
+      </main>
+
+      {/* Floating Navigation Bar */}
+      <nav className="floating-nav">
+        <Link to="/call-queue" className="nav-link">
+          Call Queue
+        </Link>
+        <Link to="/call-scheduling" className="nav-link">
+          Call Scheduling
+        </Link>
+        <Link to="/priority-management" className="nav-link">
+          Priority Management
+        </Link>
+        <Link to="/sla-tracking" className="nav-link">
+          SLA Tracking
+        </Link>
+      </nav>
     </div>
   );
 }

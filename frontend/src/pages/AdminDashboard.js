@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getRoles, logout } from '../auth';
+import { getRoles, logout } from '../authService';
 
 const Dashboard = () => {
     const navigate = useNavigate();

@@ -1,0 +1,138 @@
+/* Knowledge Component Styles */
+.knowledge-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to right, #002244, #0056b3);
+    padding: 2rem;
+  }
+  
+  .knowledge-container {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+  }
+  
+  .knowledge-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #ffc107; /* Accent Yellow */
+    margin-bottom: 2rem;
+  }
+  
+  .upload-section, .query-section {
+    margin-bottom: 2rem;
+  }
+  
+  .upload-input, .query-input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 1rem;
+  }
+  
+  .upload-input::placeholder, .query-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .upload-button, .query-button {
+    width: 100%;
+    padding: 1rem;
+    background: #ffc107; /* Accent Yellow */
+    color: #222;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .upload-button:hover, .query-button:hover {
+    background: #e0a800; /* Darker Yellow */
+  }
+  
+  .upload-button:disabled, .query-button:disabled {
+    background: rgba(255, 255, 255, 0.3);
+    cursor: not-allowed;
+  }
+  
+  .response {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    text-align: left;
+  }
+  
+  .error {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 99, 132, 0.1); /* Light Red */
+    border: 1px solid rgba(255, 99, 132, 0.3);
+    border-radius: 10px;
+    color: rgba(255, 99, 132, 0.8); /* Red */
+    font-size: 1rem;
+    text-align: left;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .knowledge-container {
+      padding: 1.5rem;
+    }
+  
+    .knowledge-title {
+      font-size: 2rem;
+    }
+  
+    .upload-input, .query-input {
+      font-size: 0.9rem;
+    }
+  
+    .upload-button, .query-button {
+      font-size: 0.9rem;
+    }
+  
+    .response, .error {
+      font-size: 0.9rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .knowledge-container {
+      padding: 1rem;
+    }
+  
+    .knowledge-title {
+      font-size: 1.8rem;
+    }
+  
+    .upload-input, .query-input {
+      font-size: 0.8rem;
+    }
+  
+    .upload-button, .query-button {
+      font-size: 0.8rem;
+    }
+  
+    .response, .error {
+      font-size: 0.8rem;
+    }
+  }

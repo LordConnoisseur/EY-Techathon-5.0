@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
-import Sidebar from "../components/Sidebar"; // Adjust path as necessary
-import Header from "../components/Header"; // Adjust path as necessary
+import "./AudioAnalysisDashboard.css"; // Import external CSS
 
 function AudioRecorder() {
   const [recording, setRecording] = useState(false);
@@ -82,32 +81,28 @@ function AudioRecorder() {
   };
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex flex-col flex-grow">
-        <Header />
-        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#F4F4F4] to-[#EAEAEA] p-4">
-          <div className="w-full bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
-            <h2 className="text-2xl font-bold text-[#333333] text-center mb-6">
-              🎙️ Audio Analysis
-            </h2>
+    <div className="dashboard-wrapper">
+      <div className="dashboard-content">
+        <main className="dashboard-main">
+          <div className="glass-card audio-recorder">
+            <h2 className="dashboard-title">🎙 Audio Analysis</h2>
 
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+            {error && <p className="error-text">{error}</p>}
 
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="button-group">
               {!recording ? (
                 <button
                   onClick={startRecording}
-                  className="bg-[#FFC72C] hover:bg-[#E5B700] text-black font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-md w-full sm:w-auto"
+                  className="glass-card action-button"
                 >
                   🎤 Call Recording
                 </button>
               ) : (
                 <button
                   onClick={stopRecording}
-                  className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-md w-full sm:w-auto"
+                  className="glass-card action-button stop-button"
                 >
-                  ⏹️ Stop Recording
+                  ⏹ Stop Recording
                 </button>
               )}
 
@@ -120,27 +115,23 @@ function AudioRecorder() {
               />
               <button
                 onClick={() => fileInputRef.current.click()}
-                className="bg-[#333333] hover:bg-[#1A1A1A] text-white font-semibold py-2 px-4 rounded-xl transition duration-300 shadow-md w-full sm:w-auto"
+                className="glass-card action-button"
               >
                 📂 Upload Audio File
               </button>
             </div>
 
             {transcript && (
-              <div className="mt-6 p-4 bg-[#F4F4F4] rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold text-[#333333] flex items-center">
-                  📝 Transcription:
-                </h3>
-                <p className="text-[#666666] mt-2">{transcript}</p>
+              <div className="glass-card result-card">
+                <h3 className="result-title">📝 Transcription:</h3>
+                <p className="result-text">{transcript}</p>
               </div>
             )}
 
             {sentiment && (
-              <div className="mt-4 p-4 bg-[#F4F4F4] rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold text-[#333333] flex items-center">
-                  💡 Sentiment Analysis:
-                </h3>
-                <p className="text-[#666666]">
+              <div className="glass-card result-card">
+                <h3 className="result-title">💡 Sentiment Analysis:</h3>
+                <p className="result-text">
                   <strong>Label:</strong> {sentiment.label} <br />
                   <strong>Confidence:</strong> {(sentiment.score * 100).toFixed(2)}%
                 </p>
@@ -148,11 +139,9 @@ function AudioRecorder() {
             )}
 
             {emotion.length > 0 && (
-              <div className="mt-4 p-4 bg-[#F4F4F4] rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold text-[#333333] flex items-center">
-                  🎭 Emotion Analysis:
-                </h3>
-                <ul className="text-[#666666] list-disc pl-4">
+              <div className="glass-card result-card">
+                <h3 className="result-title">🎭 Emotion Analysis:</h3>
+                <ul className="result-text list-disc pl-4">
                   {emotion[0].map((emo, index) => (
                     <li key={index}>
                       <strong>{emo.label}:</strong> {(emo.score * 100).toFixed(2)}%
@@ -162,7 +151,7 @@ function AudioRecorder() {
               </div>
             )}
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

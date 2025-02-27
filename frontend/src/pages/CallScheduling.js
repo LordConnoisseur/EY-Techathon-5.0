@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./CallScheduling.css"; // Import external CSS
 
 function CallScheduling() {
   const [schedule, setSchedule] = useState({
@@ -49,68 +50,86 @@ function CallScheduling() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Call Scheduling</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-gray-700">Caller Name</label>
-          <input
-            type="text"
-            value={schedule.caller}
-            onChange={(e) => setSchedule({ ...schedule, caller: e.target.value })}
-            className="border border-gray-300 rounded w-full p-2"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700">Caller Phone</label>
-          <input
-            type="text"
-            value={schedule.phone}
-            onChange={(e) => setSchedule({ ...schedule, phone: e.target.value })}
-            className="border border-gray-300 rounded w-full p-2"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700">Issue Type</label>
-          <select
-            value={schedule.issue}
-            onChange={(e) => setSchedule({ ...schedule, issue: e.target.value })}
-            className="border border-gray-300 rounded w-full p-2"
-            required
-          >
-            <option value="">Select an Issue Type</option>
-            {issueTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-gray-700">Issue Description</label>
-          <textarea
-            value={schedule.description}
-            onChange={(e) => setSchedule({ ...schedule, description: e.target.value })}
-            className="border border-gray-300 rounded w-full p-2 h-24"
-            required
-          ></textarea>
-        </div>
-        <div>
-          <label className="block text-gray-700">Assign to Agent</label>
-          <input
-            type="text"
-            value={schedule.agent}
-            onChange={(e) => setSchedule({ ...schedule, agent: e.target.value })}
-            className="border border-gray-300 rounded w-full p-2"
-            required
-          />
-        </div>
-        <button type="submit" className="bg-green-500 text-white px-4 py-2 rounded">
-          Schedule Call
-        </button>
-      </form>
+    <div className="dashboard-wrapper">
+      {/* Dashboard Header */}
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Call Scheduling</h1>
+      </header>
+
+      {/* Main Content */}
+      <main className="dashboard-main">
+        <form onSubmit={handleSubmit} className="glass-card scheduling-form">
+          {/* Caller Name */}
+          <div className="form-group">
+            <label className="form-label">Caller Name</label>
+            <input
+              type="text"
+              value={schedule.caller}
+              onChange={(e) => setSchedule({ ...schedule, caller: e.target.value })}
+              className="form-input"
+              required
+            />
+          </div>
+
+          {/* Caller Phone */}
+          <div className="form-group">
+            <label className="form-label">Caller Phone</label>
+            <input
+              type="text"
+              value={schedule.phone}
+              onChange={(e) => setSchedule({ ...schedule, phone: e.target.value })}
+              className="form-input"
+              required
+            />
+          </div>
+
+          {/* Issue Type */}
+          <div className="form-group">
+            <label className="form-label">Issue Type</label>
+            <select
+              value={schedule.issue}
+              onChange={(e) => setSchedule({ ...schedule, issue: e.target.value })}
+              className="form-input"
+              required
+            >
+              <option value="">Select an Issue Type</option>
+              {issueTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Issue Description */}
+          <div className="form-group">
+            <label className="form-label">Issue Description</label>
+            <textarea
+              value={schedule.description}
+              onChange={(e) => setSchedule({ ...schedule, description: e.target.value })}
+              className="form-input form-textarea"
+              required
+            ></textarea>
+          </div>
+
+          {/* Assign to Agent */}
+          <div className="form-group">
+            <label className="form-label">Assign to Agent</label>
+            <input
+              type="text"
+              value={schedule.agent}
+              onChange={(e) => setSchedule({ ...schedule, agent: e.target.value })}
+              className="form-input"
+              required
+            />
+          </div>
+
+          {/* Submit Button */}
+          <button type="submit" className="action-button submit-button">
+            Schedule Call
+          </button>
+        </form>
+      </main>
     </div>
   );
 }

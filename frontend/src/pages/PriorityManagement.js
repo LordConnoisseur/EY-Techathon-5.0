@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./PriorityManagement.css"; // Import external CSS
 
 function PriorityManagement() {
   const [calls, setCalls] = useState([]);
@@ -41,30 +42,36 @@ function PriorityManagement() {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Priority Management</h2>
-      
-      <button
-        onClick={updatePriorities}
-        className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
-        disabled={loading}
-      >
-        {loading ? "Updating..." : "Update Priorities"}
-      </button>
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Priority Management</h1>
+      </header>
 
-      <div className="bg-gray-100 p-6 rounded shadow">
-        {calls.length === 0 ? <p>No pending calls</p> : (
-          <ul>
-            {calls.map((call) => (
-              <li key={call.id} className="mb-4 p-4 border-b">
-                <p><strong>Caller:</strong> {call.caller_name} ({call.caller_phone})</p>
-                <p><strong>Issue:</strong> {call.issue_type}</p>
-                <p><strong>Priority:</strong> {call.priority}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <main className="dashboard-main">
+        <button
+          onClick={updatePriorities}
+          className="glass-card action-button"
+          disabled={loading}
+        >
+          {loading ? "Updating..." : "Update Priorities"}
+        </button>
+
+        <div className="glass-card calls-container">
+          {calls.length === 0 ? (
+            <p className="no-calls-text">No pending calls</p>
+          ) : (
+            <ul className="calls-list">
+              {calls.map((call) => (
+                <li key={call.id} className="call-item">
+                  <p><strong>Caller:</strong> {call.caller_name} ({call.caller_phone})</p>
+                  <p><strong>Issue:</strong> {call.issue_type}</p>
+                  <p><strong>Priority:</strong> {call.priority}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </main>
     </div>
   );
 }

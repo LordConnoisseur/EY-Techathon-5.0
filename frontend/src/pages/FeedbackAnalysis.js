@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+import "./FeedbackAnalysis.css"; // Import external CSS
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -38,50 +39,46 @@ function FeedbackAnalysis() {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-        Feedback Analysis
-      </h2>
+    <div className="feedback-wrapper">
+      <h2 className="feedback-title">Feedback Analysis</h2>
 
       {loading ? (
-        <p className="text-center text-gray-500">Loading feedback data...</p>
+        <p className="loading-text">Loading feedback data...</p>
       ) : error ? (
-        <p className="text-center text-red-500">{error}</p>
+        <p className="error-text">{error}</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="flex flex-col items-center">
-            <div className="w-80 h-80">
+        <div className="feedback-content">
+          <div className="chart-container">
+            <div className="chart-wrapper">
               <Pie data={chartData} options={{
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
                   legend: {
                     position: "bottom",
-                    labels: { color: "#4B5563", font: { size: 14 } }
+                    labels: { color: "#ffffff", font: { size: 14 } }
                   }
                 }
               }} />
             </div>
           </div>
 
-          <div className="bg-gray-100 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">
-              AI Powered Feedback Summary
-            </h3>
-            <table className="w-full border-collapse border border-gray-300">
+          <div className="summary-container glass-card">
+            <h3 className="summary-title">AI Powered Feedback Summary</h3>
+            <table className="summary-table">
               <thead>
-                <tr className="bg-gray-200">
-                  <th className="border border-gray-300 px-4 py-2">Category</th>
-                  <th className="border border-gray-300 px-4 py-2">Frequency</th>
-                  <th className="border border-gray-300 px-4 py-2">AI Advice</th>
+                <tr>
+                  <th>Category</th>
+                  <th>Frequency</th>
+                  <th>AI Advice</th>
                 </tr>
               </thead>
               <tbody>
                 {Object.entries(data.advice).map(([category, summary]) => (
                   <tr key={category}>
-                    <td className="border border-gray-300 px-4 py-2">{category}</td>
-                    <td className="border border-gray-300 px-4 py-2">{data.grouped_feedback_counts[category]}</td>
-                    <td className="border border-gray-300 px-4 py-2">{summary}</td>
+                    <td>{category}</td>
+                    <td>{data.grouped_feedback_counts[category]}</td>
+                    <td>{summary}</td>
                   </tr>
                 ))}
               </tbody>

@@ -1,5 +1,3 @@
-// src/authService.js
-
 export function login(email, password) {
     return fetch('http://localhost:5000/auth/login', {
         method: 'POST',
@@ -14,14 +12,9 @@ export function login(email, password) {
             localStorage.setItem('token', data.access_token);
             localStorage.setItem('user_id', data.user_id);
             localStorage.setItem('username', data.username);
+            localStorage.setItem('roles', JSON.stringify(data.roles));
 
-            // Decode JWT to extract roles
-            const decodedToken = JSON.parse(atob(data.access_token.split('.')[1]));
-            const roles = decodedToken.roles || [];
-
-            localStorage.setItem('roles', JSON.stringify(roles));
-
-            return { roles, user_id: data.user_id, username: data.username }; // Return stored data for frontend usage
+            return { roles: data.roles, user_id: data.user_id, username: data.username }; // Return stored data for frontend usage
         }
         throw new Error('Invalid credentials');
     });

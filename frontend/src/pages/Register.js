@@ -1,7 +1,5 @@
-// src/Register.js
 import React, { useState } from 'react';
-import './Login.css';
-
+import './Register.css'; // Import the same CSS file
 
 const Register = () => {
     const [email, setEmail] = useState('');
@@ -34,33 +32,68 @@ const Register = () => {
     };
 
     return (
-        <div className="form-container">
-            <h2>Register</h2>
-            <form onSubmit={handleRegister}>
-                <div className="input-group">
-                    <label>Email</label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <div className="dashboard-wrapper">
+            <header className="dashboard-header">
+                <h1 className="dashboard-title">Register</h1>
+            </header>
+
+            <main className="dashboard-main">
+                <div className="glass-card register-container">
+                    <h2 className="register-title">Create an Account</h2>
+                    <form onSubmit={handleRegister} className="register-form">
+                        <div className="input-group">
+                            <label className="input-label">Email</label>
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="glass-input"
+                                placeholder="Enter your email"
+                                required
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label className="input-label">Password</label>
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="glass-input"
+                                placeholder="Enter your password"
+                                required
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label className="input-label">Name</label>
+                            <input
+                                type="text"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className="glass-input"
+                                placeholder="Enter your name"
+                                required
+                            />
+                        </div>
+                        <div className="input-group">
+                            <label className="input-label">Role</label>
+                            <select
+                                value={roles}
+                                onChange={(e) => setRoles([e.target.value])}
+                                className="glass-input"
+                            >
+                                <option value="user">User</option>
+                                <option value="admin">Admin</option>
+                                <option value="manager">Manager</option>
+                                <option value="agent">Agent</option>
+                            </select>
+                        </div>
+                        <button type="submit" className="register-button">
+                            Register
+                        </button>
+                    </form>
+                    {message && <p className="register-message">{message}</p>}
                 </div>
-                <div className="input-group">
-                    <label>Password</label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <div className="input-group">
-                    <label>Name</label>
-                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-                </div>
-                <div className="input-group">
-                    <label>Role</label>
-                    <select value={roles} onChange={(e) => setRoles([e.target.value])}>
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                        <option value="manager">Manager</option>
-                        <option value="agent">Agent</option>
-                    </select>
-                </div>
-                <button type="submit">Register</button>
-            </form>
-            {message && <p>{message}</p>}
+            </main>
         </div>
     );
 };

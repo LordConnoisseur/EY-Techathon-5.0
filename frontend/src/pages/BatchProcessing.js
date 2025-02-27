@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./BatchProcessing.css"; // Import the same external CSS
 
 function BatchProcessing() {
   const [status, setStatus] = useState("Idle");
@@ -34,29 +35,37 @@ function BatchProcessing() {
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Batch Processing</h2>
-      <div className="bg-gray-100 p-6 rounded shadow">
-        <button
-          onClick={handleProcessBatch}
-          className="bg-blue-500 text-white p-2 rounded"
-        >
-          Start Batch Processing
-        </button>
-        <div className="mt-4">
-          <p>Status: {status}</p>
-          {processedItems.length > 0 && (
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Batch Processing</h1>
+      </header>
+
+      <main className="dashboard-main">
+        <div className="glass-card">
+          <div className="p-6">
+            <h2 className="text-2xl font-bold mb-4">Batch Processing</h2>
+            <button
+              onClick={handleProcessBatch}
+              className="glass-card action-button"
+            >
+              Start Batch Processing
+            </button>
             <div className="mt-4">
-              <h3 className="text-lg font-bold">Processed Items:</h3>
-              <ul className="list-disc ml-5">
-                {processedItems.map((item) => (
-                  <li key={item.id}>{`Item ${item.id}: ${item.status}`}</li>
-                ))}
-              </ul>
+              <p>Status: {status}</p>
+              {processedItems.length > 0 && (
+                <div className="mt-4">
+                  <h3 className="text-lg font-bold">Processed Items:</h3>
+                  <ul className="list-disc ml-5">
+                    {processedItems.map((item) => (
+                      <li key={item.id}>{`Item ${item.id}: ${item.status}`}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
