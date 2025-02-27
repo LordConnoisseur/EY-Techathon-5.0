@@ -1,0 +1,131 @@
+/* Form Processing Specific Styles */
+.form-processing-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(to right, #002244, #0056b3);
+    padding: 2rem;
+  }
+  
+  .form-processing {
+    padding: 2rem;
+    text-align: center;
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .file-upload-section {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .file-name {
+    margin-left: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .form-section, .chat-section {
+    margin-top: 2rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #ffc107; /* Accent Yellow */
+    margin-bottom: 1rem;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+  
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  
+  .chat-container {
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+  
+  .chat-message {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border-radius: 8px;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+  
+  .user-message {
+    background: rgba(255, 255, 255, 0.2);
+    margin-left: auto;
+  }
+  
+  .assistant-message {
+    background: rgba(255, 255, 255, 0.1);
+    margin-right: auto;
+  }
+  
+  .query-form {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .query-form input {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+  
+  .error-text, .success-text {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .error-text {
+    color: #ff6b6b;
+  }
+  
+  .success-text {
+    color: #4CAF50;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .file-upload-section {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  
+    .query-form {
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './KnowledgeComponent.css'; // Import external CSS
+import './KnowledgeBaseDashboard.css'; // Import external CSS
 
 const KnowledgeComponent = () => {
   const [file, setFile] = useState(null);

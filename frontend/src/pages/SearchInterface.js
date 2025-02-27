@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./SearchInterface.css"; // Import the same CSS file used in AgentDashboard
 
 function SearchInterface() {
   const [query, setQuery] = useState("");
@@ -14,31 +15,36 @@ function SearchInterface() {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Knowledge Base Search</h2>
-      <div className="mb-4">
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for articles..."
-          className="border rounded px-4 py-2 w-full"
-        />
-        <button
-          onClick={handleSearch}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-2"
-        >
-          Search
-        </button>
-      </div>
-      <ul>
-        {results.map((result) => (
-          <li key={result.id} className="mb-2">
-            <h3 className="font-semibold">{result.title}</h3>
-            <p>{result.snippet}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="dashboard-wrapper">
+      <header className="dashboard-header">
+        <h1 className="dashboard-title">Knowledge Base Search</h1>
+      </header>
+
+      <main className="dashboard-main">
+        <div className="glass-card search-container">
+          <div className="search-input-container">
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search for articles..."
+              className="search-input"
+            />
+            <button onClick={handleSearch} className="search-button">
+              Search
+            </button>
+          </div>
+
+          <ul className="search-results">
+            {results.map((result) => (
+              <li key={result.id} className="result-item">
+                <h3 className="result-title">{result.title}</h3>
+                <p className="result-snippet">{result.snippet}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </main>
     </div>
   );
 }
