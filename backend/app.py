@@ -24,6 +24,7 @@ from routes.form_filling import form_filling_bp
 from auth import auth_bp
 from models import Role
 
+from routes.audio_routes import audio_bp
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -67,6 +68,7 @@ app.register_blueprint(knowledge_bp,url_prefix="/api/knowledge")
 app.register_blueprint(feedback_analysis_bp, url_prefix="/api/feedback_analysis")
 app.register_blueprint(auto_response_bp,url_prefix="/api/auto_response")
 app.register_blueprint(form_filling_bp,url_prefix="/api/form_filling")
+app.register_blueprint(audio_bp, url_prefix="/api/audio")
 
 # Initialize Scheduler (If you need to use it)
 # from apscheduler.schedulers.background import BackgroundScheduler

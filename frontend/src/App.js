@@ -29,6 +29,7 @@ import Register from "./pages/Register";
 import ClientDashboard from "./pages/ClientDashboard";
 import FeedbackAnalysis from "./pages/FeedbackAnalysis";
 import AutoResponse from "./pages/AutoResponse";
+import AudioAnalysisDashboard from "./pages/AudioAnalysisDashboard";
 
 function App() {
   return (
@@ -67,6 +68,8 @@ function App() {
         <Route path="/autoresponse" element={<AutoResponse />} />
         <Route path="/form_filling" element={<FormProcessing />} />
 
+        {/* New Route for Audio Analysis */}
+        <Route path="/audio-analysis" element={<AudioAnalysisDashboard />} />
       </Routes>
     </Router>
   );
