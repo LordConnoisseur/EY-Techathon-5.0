@@ -49,8 +49,10 @@ function PriorityManagement() {
 
       <main className="dashboard-main">
         <button
+
           onClick={updatePriorities}
           className="glass-card action-button"
+          id="c"
           disabled={loading}
         >
           {loading ? "Updating..." : "Update Priorities"}

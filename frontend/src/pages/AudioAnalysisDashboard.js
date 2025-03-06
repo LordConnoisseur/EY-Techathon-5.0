@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./AudioAnalysisDashboard.css"; // Import external CSS
 
 function AudioRecorder() {
@@ -10,6 +11,7 @@ function AudioRecorder() {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
   const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
   const processAudio = async (audioBlob) => {
     setError("");
@@ -82,6 +84,12 @@ function AudioRecorder() {
 
   return (
     <div className="dashboard-wrapper">
+      <nav className="navbar">
+        <button onClick={() => navigate("/sentiment-dashboard")} className="nav-button">📊 Client Sentiment Tracker</button>
+        <button onClick={() => navigate("/knowledge-base")} className="nav-button">📚 KnowledgeBase</button>
+        <button onClick={() => navigate("/form-processing")} className="nav-button">📝 Automated Detail Extractor</button>
+      </nav>
+      
       <div className="dashboard-content">
         <main className="dashboard-main">
           <div className="glass-card audio-recorder">
@@ -91,34 +99,13 @@ function AudioRecorder() {
 
             <div className="button-group">
               {!recording ? (
-                <button
-                  onClick={startRecording}
-                  className="glass-card action-button"
-                >
-                  🎤 Call Recording
-                </button>
+                <button onClick={startRecording} className="glass-card action-button">🎤 Call Recording</button>
               ) : (
-                <button
-                  onClick={stopRecording}
-                  className="glass-card action-button stop-button"
-                >
-                  ⏹ Stop Recording
-                </button>
+                <button onClick={stopRecording} className="glass-card action-button stop-button">⏹ Stop Recording</button>
               )}
 
-              <input
-                type="file"
-                accept="audio/*"
-                ref={fileInputRef}
-                className="hidden"
-                onChange={handleFileUpload}
-              />
-              <button
-                onClick={() => fileInputRef.current.click()}
-                className="glass-card action-button"
-              >
-                📂 Upload Audio File
-              </button>
+              <input type="file" accept="audio/*" ref={fileInputRef} className="hidden" onChange={handleFileUpload} />
+              <button onClick={() => fileInputRef.current.click()} className="glass-card action-button">📂 Upload Audio File</button>
             </div>
 
             {transcript && (
@@ -141,15 +128,14 @@ function AudioRecorder() {
             {emotion.length > 0 && (
               <div className="glass-card result-card">
                 <h3 className="result-title">🎭 Emotion Analysis:</h3>
-                <ul className="result-text list-disc pl-4">
+                <ul className="result-text">
                   {emotion[0].map((emo, index) => (
-                    <li key={index}>
-                      <strong>{emo.label}:</strong> {(emo.score * 100).toFixed(2)}%
-                    </li>
+                    <li key={index}><strong>{emo.label}:</strong> {(emo.score * 100).toFixed(2)}%</li>
                   ))}
                 </ul>
               </div>
             )}
+            <button onClick={() => navigate("/clientdashboard")} className="nav-button">📚 Submit Feedback</button>
           </div>
         </main>
       </div>

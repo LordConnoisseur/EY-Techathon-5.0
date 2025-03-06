@@ -26,7 +26,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(to right, #002244, #0056b3);
+    background: linear-gradient(145deg, #1e1e2f, #2a2a40);
     backdrop-filter: blur(10px);
 }
 
@@ -40,7 +40,8 @@ body {
 
 /* Glassmorphic Container */
 .login-container {
-    width: 380px;
+    width: 780px;
+    height: 400px;
     padding: 35px;
     border-radius: 15px;
     background: var(--glass-bg);
@@ -103,7 +104,7 @@ body {
 
 /* Login Button */
 .login-btn {
-    width: 100%;
+    width: 40%;
     padding: 12px;
     border: none;
     border-radius: 8px;

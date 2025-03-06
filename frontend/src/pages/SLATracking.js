@@ -27,7 +27,7 @@ function SLATracking() {
 
       {/* Main Content */}
       <main className="dashboard-main">
-        <div className="glass-card sla-alerts">
+        <div className=" sla-alerts">
           {slaAlerts.length === 0 ? (
             <p className="no-alerts">No SLA breaches</p>
           ) : (

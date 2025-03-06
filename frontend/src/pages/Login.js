@@ -17,9 +17,9 @@ function Login() {
             if (roles.includes("admin")) {
                 navigate("/admin/dashboard");
             } else if (roles.includes("manager")) {
-                navigate("/manager/dashboard");
+                navigate("/manager_dashboard");
             } else if (roles.includes("agent")) {
-                navigate("/agent/dashboard");
+                navigate("/call-queue");
             } else {
                 navigate("/clientdashboard");
             }

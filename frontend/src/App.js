@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./pages/Dashboard";
 import CallManagementDashboard from "./pages/CallManagementDashboard";
 import CallQueueDashboard from "./pages/CallQueueDashboard";
 import CallScheduling from "./pages/CallScheduling";
@@ -21,7 +21,7 @@ import SearchInterface from "./pages/SearchInterface";
 import ArticleView from "./pages/ArticleView";
 import KnowledgeGraph from "./pages/KnowledgeGraph";
 import ContentManagement from "./pages/ContentManagement";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/Dashboard";
 import ManagerDashboard from "./pages/ManagerDashboard";
 import AgentDashboard from "./pages/AgentDashboard";
 import Login from "./pages/Login";
@@ -30,8 +30,11 @@ import ClientDashboard from "./pages/ClientDashboard";
 import FeedbackAnalysis from "./pages/FeedbackAnalysis";
 import AutoResponse from "./pages/AutoResponse";
 import AudioAnalysisDashboard from "./pages/AudioAnalysisDashboard";
-
+import AgentTraining from "./pages/AgentTraining";
+import AgentScoring from "./pages/AgentScoring";
+import EmailReply from "./pages/EmailReply";
 import { isAuthenticated, getRoles } from "./authService";
+
 
 function ProtectedRoute({ element, allowedRoles }) {
     const isAuth = isAuthenticated();
@@ -59,7 +62,7 @@ function App() {
 
         {/* Role-based Dashboards */}
         <Route path="/admin/dashboard" element={<ProtectedRoute element={<AdminDashboard />} allowedRoles={['admin']} />} />
-        <Route path="/manager/dashboard" element={<ProtectedRoute element={<ManagerDashboard />} allowedRoles={['manager']} />} />
+        <Route path="/manager_dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
         <Route path="/agent/dashboard" element={<ProtectedRoute element={<AgentDashboard />} allowedRoles={['agent']} />} />
 
         {/* Other Routes with Protection */}
@@ -91,9 +94,13 @@ function App() {
         <Route path="/clientdashboard" element={<ProtectedRoute element={<ClientDashboard />} allowedRoles={['agent']} />} />
         <Route path="/feedbackanalysis" element={<ProtectedRoute element={<FeedbackAnalysis />} allowedRoles={['agent','manager', 'admin']} />} />
         <Route path="/autoresponse" element={<ProtectedRoute element={<AutoResponse />} allowedRoles={['agent']} />} />
-        <Route path="/form_filling" element={<ProtectedRoute element={<FormProcessing />} allowedRoles={['agent']} />} />
+        <Route path="/form-processing" element={<ProtectedRoute element={<FormProcessing />} allowedRoles={['agent']} />} />
+        <Route path="/agentscoring" element={<ProtectedRoute element={<AgentScoring />} allowedRoles={['agent']} />} />
+        <Route path="/agenttraining" element={<ProtectedRoute element={<AgentTraining />} allowedRoles={['agent']} />} />
         <Route path="/audio-analysis" element={<ProtectedRoute element={<AudioAnalysisDashboard />} allowedRoles={['agent','manager']} />} />
+        <Route path="/emailreply" element={<ProtectedRoute element={<EmailReply />} allowedRoles={['agent']} />} />
       </Routes>
+      
     </Router>
   );
 }

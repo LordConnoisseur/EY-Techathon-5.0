@@ -32,7 +32,7 @@ body {
   
   /* Glassmorphic Card */
   .glass-card {
-    background: rgba(255, 255, 255, 0.15);
+    background: #bac00526;
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 15px;
     backdrop-filter: blur(20px);
@@ -63,12 +63,13 @@ body {
   }
   
   .alert-item {
-    background: rgba(255, 0, 0, 0.1); /* Red background for alerts */
-    border: 1px solid rgba(255, 0, 0, 0.3);
+    background: #ff0000b9; /* Red background for alerts */
+    border: 1px solid rgba(255, 0, 0, 0.632);
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
     transition: background 0.3s ease;
+    width: 900px;
   }
   
   .alert-item:hover {

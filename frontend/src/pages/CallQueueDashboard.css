@@ -81,7 +81,7 @@ body {
   }
   
   .call-details strong {
-    color: #ffc107; /* Accent Yellow */
+    color: hsl(124, 100%, 51%); /* Accent Yellow */
   }
   
   /* Action Buttons */

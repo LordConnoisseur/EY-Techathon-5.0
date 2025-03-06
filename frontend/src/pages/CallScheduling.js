@@ -107,7 +107,7 @@ function CallScheduling() {
             <textarea
               value={schedule.description}
               onChange={(e) => setSchedule({ ...schedule, description: e.target.value })}
-              className="form-input form-textarea"
+              className="form-input"
               required
             ></textarea>
           </div>

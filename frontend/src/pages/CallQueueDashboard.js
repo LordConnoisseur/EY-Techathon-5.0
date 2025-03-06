@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "./CallQueueDashboard.css"; // Import external CSS
+import { useNavigate } from "react-router-dom";
+import "./CallQueueDashboard.css";
 
 function CallQueueDashboard() {
   const [calls, setCalls] = useState([]);
   const [loading, setLoading] = useState(false);
-  const loggedInAgent = "Sundaresh"; // Replace with actual agent authentication
+  const navigate = useNavigate();
+  const loggedInAgent = "Sundaresh";
 
   useEffect(() => {
     fetchAssignedCalls();
@@ -22,89 +24,113 @@ function CallQueueDashboard() {
     setLoading(false);
   };
 
-  const handleUpdateStatus = async (callId, status) => {
-    try {
-      await fetch("http://127.0.0.1:5000/api/call-queue/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ call_id: callId, status }),
-      });
-
-      fetchAssignedCalls();
-    } catch (error) {
-      console.error("Error updating status:", error);
-    }
+  const handleCallRedirect = () => {
+    navigate("/audio-analysis");
   };
 
-  const getEscalationSymbol = (level) => {
-    switch (level) {
-      case 1: return "⚠️ Tier 1";
-      case 2: return "🔥 Tier 2";
-      case 3: return "🛑 Admin Intervention";
-      default: return "No Escalation";
-    }
-  };
-
-  const timeSinceUpdate = (lastUpdated) => {
-    const updatedTime = new Date(lastUpdated);
-    const now = new Date();
-    const diff = Math.floor((now - updatedTime) / (1000 * 60 * 60)); // Convert to hours
-    return `${diff} hours ago`;
+  const handleAutoRedirect = () => {
+    navigate("/autoresponse");
   };
 
   return (
     <div className="dashboard-wrapper">
-      {/* Dashboard Header */}
+      {/* Dashboard Header with Buttons */}
       <header className="dashboard-header">
         <h1 className="dashboard-title">Call Queue Management</h1>
+        <div className="header-buttons">
+          <button onClick={() => navigate("/knowledge-base")} className="header-button">Knowledge Base</button>
+          <button onClick={() => navigate("/agenttraining")} className="header-button">AI Agent Trainer</button>
+          <button onClick={() => navigate("/feedbackanalysis")} className="header-button">Claim Analyzer</button>
+        </div>
       </header>
 
       {/* Main Content */}
       <main className="dashboard-main">
-        {/* Loading State */}
         {loading && <p className="loading-text">Loading...</p>}
 
-        {/* Call List */}
-        <div className="glass-card call-list">
-          {calls.length === 0 ? (
-            <p className="no-calls-text">No calls assigned to you</p>
-          ) : (
-            <ul className="call-items">
-              {calls.map((call) => (
-                <li key={call.id} className="call-item">
-                  <div className="call-details">
-                    <p><strong>Caller:</strong> {call.caller_name} ({call.caller_phone})</p>
-                    <p><strong>Issue:</strong> {call.issue_type}</p>
-                    <p><strong>Status:</strong> {call.status}</p>
-                    <p><strong>Priority:</strong> {call.priority}</p>
-                    <p><strong>Escalation Level:</strong> {getEscalationSymbol(call.escalation_level)}</p>
-                    <p><strong>Last Updated:</strong> {timeSinceUpdate(call.last_updated)}</p>
-                  </div>
+        {/* Calls Table */}
+        <div className="glass-card call-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Phone Number</th>
+                <th>Caller Name</th>
+                <th>Claim Title</th>
+                <th>Claim Issue</th>
+                <th>Action</th>
+                <th>Automated Response Generator</th>
 
-                  {/* Action Buttons */}
-                  <div className="call-actions">
-                    {call.status === "pending" && (
-                      <button
-                        onClick={() => handleUpdateStatus(call.id, "in-progress")}
-                        className="action-button in-progress"
-                      >
-                        Mark as In Progress
-                      </button>
-                    )}
+              </tr>
+              <tr>
+              <td>+1 555-1234</td>
+             <td>John Doe</td>
+             <td>Car Insurance Claim</td>
+             <td>Delay in claim processing</td>
+             <td>
+                      <button onClick={handleCallRedirect} className="call-button">Call</button>
+                    </td>
+                    <td>
+                      <button onClick={handleAutoRedirect} className="call-button">Auto Response</button>
+                    </td>
+              </tr>
+              <tr>
+      <td>+1 555-5678</td>
+      <td>Jane Smith</td>
+      <td>Health Insurance Claim</td>
+      <td>Incorrect reimbursement amount</td>
+      <td>
+                      <button onClick={handleCallRedirect} className="call-button">Call</button>
+                    </td>
+                    <td>
+                      <button onClick={handleAutoRedirect} className="call-button">Auto Response</button>
+                    </td>
+    </tr>
+    <tr>
+      <td>+1 555-9101</td>
+      <td>Robert Lee</td>
+      <td>Home Damage Claim</td>
+      <td>Denied claim without explanation</td>
+      <td>
+                      <button onClick={handleCallRedirect} className="call-button">Call</button>
+                    </td>
+                    <td>
+                      <button onClick={handleAutoRedirect} className="call-button">Auto Response</button>
+                    </td>
+    </tr>
+    <tr>
+      <td>+1 555-1122</td>
+      <td>Emily Clark</td>
+      <td>Travel Insurance Claim</td>
+      <td>Lost baggage claim not processed</td>
+      <td>
+                      <button onClick={handleCallRedirect} className="call-button">Call</button>
+                    </td>
+                    <td>
+                      <button onClick={handleAutoRedirect} className="call-button">Auto Response</button>
+                    </td>
 
-                    {call.status === "in-progress" && (
-                      <button
-                        onClick={() => handleUpdateStatus(call.id, "resolved")}
-                        className="action-button resolved"
-                      >
-                        Mark as Resolved
-                      </button>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          )}
+    </tr>
+            </thead>
+            <tbody>
+              {calls.length === 0 ? (
+                <tr>
+                  <td colSpan="5" className="no-calls-text">My Calls</td>
+                </tr>
+              ) : (
+                calls.map((call) => (
+                  <tr key={call.id}>
+                    <td>{call.caller_phone}</td>
+                    <td>{call.caller_name}</td>
+                    <td>{call.claim_title || "N/A"}</td>
+                    <td>{call.claim_issue || "N/A"}</td>
+                    <td>
+                      <button onClick={handleCallRedirect} className="call-button">Call</button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </main>
     </div>

@@ -51,6 +51,12 @@ function SentimentDashboard() {
               pointRadius: 5,
               borderWidth: 2,
               tension: 0.3,
+              innerHeight:1400,
+              innerWidth:1400,
+              outerHeight:1400,
+              outerWidth:1400
+
+            
             },
           ],
         });
@@ -108,39 +114,6 @@ function SentimentDashboard() {
             ) : (
               <p className="no-data">📉 No sentiment data available.</p>
             )}
-          </div>
-
-          {/* Sentiment History Table */}
-          <div className="table-container">
-            <h3 className="table-title">Sentiment History</h3>
-            <table className="sentiment-table">
-              <thead>
-                <tr>
-                  <th>Timestamp</th>
-                  <th>Feedback</th>
-                  <th>Sentiment Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sentimentData.map((feedback, index) => (
-                  <tr key={index}>
-                    <td>{new Date(feedback.timestamp).toLocaleString()}</td>
-                    <td>{feedback.feedback_text}</td>
-                    <td
-                      className={
-                        feedback.sentiment_score > 0
-                          ? 'positive'
-                          : feedback.sentiment_score < 0
-                          ? 'negative'
-                          : 'neutral'
-                      }
-                    >
-                      {feedback.sentiment_score}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
           </div>
 
           {/* Button to Fetch a Joke */}

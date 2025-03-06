@@ -22,11 +22,11 @@ function ClientAnalysisDashboard() {
             <p>View sentiment analysis of client interactions.</p>
           </Link>
           <Link
-            to="/client-interaction-history"
+            to="/autoresponse"
             className="glass-card navigation-link"
           >
-            <h2 className="navigation-title">Client Interaction History</h2>
-            <p>Explore past client interactions and statuses.</p>
+            <h2 className="navigation-title">AutoResponse</h2>
+            <p>Automated Agent Responses.</p>
           </Link>
           <Link
             to="/escalation-management"
@@ -41,6 +41,34 @@ function ClientAnalysisDashboard() {
           >
             <h2 className="navigation-title">Analytics Overview</h2>
             <p>View overall client interaction analytics.</p>
+          </Link>
+          <Link
+            to="/agenttraining"
+            className="glass-card navigation-link"
+          >
+            <h2 className="navigation-title">Agent Trainer</h2>
+            <p>AI Based Agent Trainer.</p>
+          </Link>
+          <Link
+            to="/emailreply"
+            className="glass-card navigation-link"
+          >
+            <h2 className="navigation-title">Automated Email Response</h2>
+            <p>Generate Automated Email Responses</p>
+          </Link>
+          <Link
+            to="/feedbackanalysis"
+            className="glass-card navigation-link"
+          >
+            <h2 className="navigation-title">Feedback Summarizer</h2>
+            <p>Summarize client feedback based on issue categories</p>
+          </Link>
+          <Link
+            to="/audio-analysis"
+            className="glass-card navigation-link"
+          >
+            <h2 className="navigation-title">Audio Processing</h2>
+            <p>Detect Sentiment and Emotions using call recordings and live streaming</p>
           </Link>
         </div>
 
