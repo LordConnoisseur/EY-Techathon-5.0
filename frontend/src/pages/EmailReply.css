@@ -1,15 +1,5 @@
 /* Global Styles */
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(145deg, #1e1e2f, #2a2a40);
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    backdrop-filter: blur(10px);
-  }
+
   
   /* Main Container */
   .email-reply-container {

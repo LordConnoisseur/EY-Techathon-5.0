@@ -1,4 +1,4 @@
-/* Global Styles */
+/* 
 body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
@@ -10,7 +10,7 @@ body {
     min-height: 100vh;
     backdrop-filter: blur(10px);
   }
-  
+   */ 
   /* Dashboard Wrapper */
   .dashboard-wrapper {
     width: 100%;

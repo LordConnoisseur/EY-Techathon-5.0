@@ -1,11 +1,11 @@
 /* Reset and Global Styles */
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
+  } */
   
-  body, html {
+  /* body, html {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
@@ -14,7 +14,7 @@
     height: 100%;
     width: 100%;
     overflow-x: hidden;
-  }
+  } */
   
   /* Dashboard Layout */
   .dashboard-wrapper {

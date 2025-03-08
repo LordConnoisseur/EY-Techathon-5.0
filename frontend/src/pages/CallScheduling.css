@@ -1,5 +1,5 @@
 /* General Styles */
-body {
+/* body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(to right, #002244, #0056b3);
@@ -9,7 +9,7 @@ body {
   align-items: center;
   min-height: 100vh;
   backdrop-filter: blur(10px);
-}
+} */
 
 /* Dashboard Wrapper */
 .dashboard-wrapper {

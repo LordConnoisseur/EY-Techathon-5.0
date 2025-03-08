@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./AgentTraining.css";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const customerTypes = [
   { value: "angry", label: "😡 Angry Customer" },
@@ -32,6 +33,7 @@ const AgentTraining = () => {
   const [agentScore, setAgentScore] = useState("");
   const [totalScore, setTotalScore] = useState(0);
   const [milestoneMessage, setMilestoneMessage] = useState("");
+  const navigate = useNavigate();
 
   // Milestones
   const milestones = [100, 300, 500, 1000];
@@ -99,62 +101,120 @@ const AgentTraining = () => {
   };
 
   return (
-    <div className="agent-training-container">
-      <h2 className="training-title">🎓 AI Agent Training</h2>
-      <div className="scenario-selection">
-        <select
-          className="scenario-dropdown"
-          value={selectedCustomerType}
-          onChange={(e) => setSelectedCustomerType(e.target.value)}
+    <div className="bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 min-h-screen font-sans flex flex-col">
+      {/* Navbar */}
+      <nav className="flex justify-between items-center px-10 md:px-20 py-6 fixed w-full top-0 z-50 backdrop-blur-lg bg-white/90 shadow-lg border-b border-gray-200">
+        <h1 className="text-3xl font-bold text-gray-900">OptiClaim</h1>
+        <div className="hidden md:flex gap-10 items-center text-gray-800 text-lg">
+          <button onClick={() => navigate("/knowledge-base")} className="hover:text-yellow-500 transition-colors">Knowledge Base</button>
+          <button onClick={() => navigate("/agenttraining")} className="hover:text-yellow-500 transition-colors">AI Agent Trainer</button>
+          <button onClick={() => navigate("/feedbackanalysis")} className="hover:text-yellow-500 transition-colors">Claim Analyzer</button>
+          <button className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-red-400 transition-all font-semibold shadow-lg">Logout</button>
+        </div>
+      </nav>
+      <br></br>
+
+      {/* Main Content */}
+      <main className="flex-1 flex flex-col items-center justify-center pt-24 pb-16 px-6 md:px-20">
+        <motion.div
+          className="bg-gradient-to-r from-gray-100 to-gray-300 rounded-xl shadow-2xl p-8 w-full max-w-6xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
         >
-          <option value="">Select Customer Type...</option>
-          {customerTypes.map((s) => (
-            <option key={s.value} value={s.value}>
-              {s.label}
-            </option>
-          ))}
-        </select>
-        <select
-          className="scenario-dropdown"
-          value={selectedIssueType}
-          onChange={(e) => setSelectedIssueType(e.target.value)}
-        >
-          <option value="">Select Issue Type...</option>
-          {issueTypes.map((s) => (
-            <option key={s.value} value={s.value}>
-              {s.label}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="conversation-box">
-        {conversation.map((msg, i) => (
-          <div key={i} className={`message-bubble ${msg.sender.toLowerCase()}-msg`}>
-            {msg.sender}: {msg.text}
+          <h2 className="text-4xl font-bold text-gray-900 mb-8">🎓 My AI Driven Learning</h2>
+
+          {/* Scenario Selection */}
+          <div className="flex flex-col md:flex-row gap-4 mb-8">
+            <select
+              className="px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white"
+              value={selectedCustomerType}
+              onChange={(e) => setSelectedCustomerType(e.target.value)}
+            >
+              <option value="">Select Customer Type...</option>
+              {customerTypes.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+            <select
+              className="px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 bg-white"
+              value={selectedIssueType}
+              onChange={(e) => setSelectedIssueType(e.target.value)}
+            >
+              <option value="">Select Issue Type...</option>
+              {issueTypes.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
           </div>
-        ))}
-        {showTyping && <div className="message-bubble customer-msg">Customer is typing...</div>}
-      </div>
-      <div className="message-input">
-        <input
-          className="input-field"
-          type="text"
-          value={agentMessage}
-          onChange={(e) => setAgentMessage(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <button className="send-button" onClick={sendMessage} disabled={loading}>
-          {loading ? "Thinking..." : "Send"}
-        </button>
-      </div>
-      {agentScore && (
-        <>
-          <p className="performance-score">Performance Score: {agentScore}</p>
-          {/* <p className="total-score">Total Score: {totalScore}</p> */}
-        </>
-      )}
-      {milestoneMessage && <p className="milestone-message">{milestoneMessage}</p>}
-      {error && <p className="error-text">{error}</p>}
+
+          {/* Chat Section */}
+          <div className="bg-white rounded-xl shadow-lg p-6 mb-8 h-[400px] overflow-y-auto flex flex-col gap-4">
+            {conversation.map((msg, i) => (
+              <div
+                key={i}
+                className={`flex ${msg.sender === "Agent" ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[70%] p-4 rounded-lg ${
+                    msg.sender === "Agent"
+                      ? "bg-blue-500 text-white rounded-br-none"
+                      : "bg-gray-100 text-gray-900 rounded-bl-none"
+                  }`}
+                >
+                  <p className="text-sm font-medium">{msg.sender}</p>
+                  <p className="text-base">{msg.text}</p>
+                </div>
+              </div>
+            ))}
+            {showTyping && (
+              <div className="flex justify-start">
+                <div className="bg-yellow-100 text-gray-900 p-4 rounded-lg rounded-bl-none max-w-[70%]">
+                  <p className="text-sm font-medium">Customer</p>
+                  <p className="text-base">Typing...</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Message Input */}
+          <div className="flex gap-4">
+            <input
+              type="text"
+              value={agentMessage}
+              onChange={(e) => setAgentMessage(e.target.value)}
+              placeholder="Type your message..."
+              className="flex-1 px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+            />
+            <button
+              onClick={sendMessage}
+              disabled={loading}
+              className="px-6 py-3 rounded-full text-white bg-blue-600 hover:bg-blue-500 transition-all font-semibold shadow-md"
+            >
+              {loading ? "Thinking..." : "Send"}
+            </button>
+          </div>
+
+          {/* Feedback Section */}
+          <div className="mt-8">
+            {agentScore && (
+              <p className="text-xl font-bold text-gray-900">Performance Score: {agentScore}</p>
+            )}
+            {milestoneMessage && (
+              <p className="mt-2 text-lg font-bold text-yellow-600">{milestoneMessage}</p>
+            )}
+            {error && <p className="mt-2 text-red-600">{error}</p>}
+          </div>
+        </motion.div>
+      </main>
+
+      {/* Footer */}
+      <footer className="py-12 text-center bg-black text-gray-300">
+        <p>© 2025 OptiClaim by Roast and Toast</p>
+      </footer>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./CallScheduling.css"; // Import external CSS
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function CallScheduling() {
   const [schedule, setSchedule] = useState({
@@ -9,6 +10,8 @@ function CallScheduling() {
     description: "",
     agent: "",
   });
+
+  const navigate = useNavigate();
 
   // Predefined issue types for dropdown
   const issueTypes = [
@@ -50,86 +53,114 @@ function CallScheduling() {
   };
 
   return (
-    <div className="dashboard-wrapper">
-      {/* Dashboard Header */}
-      <header className="dashboard-header">
-        <h1 className="dashboard-title">Call Scheduling</h1>
-      </header>
+    <div className="bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 min-h-screen font-sans flex flex-col">
+      {/* Navbar */}
+      <nav className="flex justify-between items-center px-10 md:px-20 py-6 fixed w-full top-0 z-50 backdrop-blur-lg bg-white/90 shadow-lg border-b border-gray-200">
+        <h1 className="text-3xl font-bold text-gray-900">OptiClaim</h1>
+        <div className="hidden md:flex gap-10 items-center text-gray-800 text-lg">
+          <button onClick={() => navigate("/call-management")} className="hover:text-yellow-500 transition-colors">📞 Call Management</button>
+          <button onClick={() => navigate("/call-scheduling")} className="hover:text-yellow-500 transition-colors">📅 Call Scheduling</button>
+          <button onClick={() => navigate("/priority-management")} className="hover:text-yellow-500 transition-colors">⚡ Priority Management</button>
+          <button onClick={() => navigate("/sla-tracking")} className="hover:text-yellow-500 transition-colors">📊 SLA Tracking</button>
+          <button className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-red-400 transition-all font-semibold shadow-lg"> Logout</button>
+        </div>
+      </nav>
+      <br></br>
 
       {/* Main Content */}
-      <main className="dashboard-main">
-        <form onSubmit={handleSubmit} className="glass-card scheduling-form">
-          {/* Caller Name */}
-          <div className="form-group">
-            <label className="form-label">Caller Name</label>
-            <input
-              type="text"
-              value={schedule.caller}
-              onChange={(e) => setSchedule({ ...schedule, caller: e.target.value })}
-              className="form-input"
-              required
-            />
-          </div>
+      <main className="flex-1 flex flex-col items-center justify-center pt-24 pb-16 px-6 md:px-20">
+        <motion.div
+          className="bg-gradient-to-r from-gray-100 to-gray-300 rounded-xl shadow-2xl p-8 w-full max-w-4xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h2 className="text-4xl font-bold text-gray-900 mb-8">📅 Call Scheduling</h2>
 
-          {/* Caller Phone */}
-          <div className="form-group">
-            <label className="form-label">Caller Phone</label>
-            <input
-              type="text"
-              value={schedule.phone}
-              onChange={(e) => setSchedule({ ...schedule, phone: e.target.value })}
-              className="form-input"
-              required
-            />
-          </div>
+          {/* Scheduling Form */}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Caller Name */}
+            <div className="flex flex-col">
+              <label className="text-lg font-medium text-gray-900 mb-2">Caller Name</label>
+              <input
+                type="text"
+                value={schedule.caller}
+                onChange={(e) => setSchedule({ ...schedule, caller: e.target.value })}
+                className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
 
-          {/* Issue Type */}
-          <div className="form-group">
-            <label className="form-label">Issue Type</label>
-            <select
-              value={schedule.issue}
-              onChange={(e) => setSchedule({ ...schedule, issue: e.target.value })}
-              className="form-input"
-              required
+            {/* Caller Phone */}
+            <div className="flex flex-col">
+              <label className="text-lg font-medium text-gray-900 mb-2">Caller Phone</label>
+              <input
+                type="text"
+                value={schedule.phone}
+                onChange={(e) => setSchedule({ ...schedule, phone: e.target.value })}
+                className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+
+            {/* Issue Type */}
+            <div className="flex flex-col">
+              <label className="text-lg font-medium text-gray-900 mb-2">Issue Type</label>
+              <select
+                value={schedule.issue}
+                onChange={(e) => setSchedule({ ...schedule, issue: e.target.value })}
+                className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              >
+                <option value="">Select an Issue Type</option>
+                {issueTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Issue Description */}
+            <div className="flex flex-col">
+              <label className="text-lg font-medium text-gray-900 mb-2">Issue Description</label>
+              <textarea
+                value={schedule.description}
+                onChange={(e) => setSchedule({ ...schedule, description: e.target.value })}
+                className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows={4}
+                required
+              ></textarea>
+            </div>
+
+            {/* Assign to Agent */}
+            <div className="flex flex-col">
+              <label className="text-lg font-medium text-gray-900 mb-2">Assign to Agent</label>
+              <input
+                type="text"
+                value={schedule.agent}
+                onChange={(e) => setSchedule({ ...schedule, agent: e.target.value })}
+                className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+
+            {/* Submit Button */}
+            <center>
+            <button
+              type="submit"
+              className="w-half px-6 py-3 rounded-full text-white bg-blue-600 hover:bg-blue-500 transition-all font-semibold shadow-md"
             >
-              <option value="">Select an Issue Type</option>
-              {issueTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Issue Description */}
-          <div className="form-group">
-            <label className="form-label">Issue Description</label>
-            <textarea
-              value={schedule.description}
-              onChange={(e) => setSchedule({ ...schedule, description: e.target.value })}
-              className="form-input"
-              required
-            ></textarea>
-          </div>
-
-          {/* Assign to Agent */}
-          <div className="form-group">
-            <label className="form-label">Assign to Agent</label>
-            <input
-              type="text"
-              value={schedule.agent}
-              onChange={(e) => setSchedule({ ...schedule, agent: e.target.value })}
-              className="form-input"
-              required
-            />
-          </div>
-
-          {/* Submit Button */}
-          <button type="submit" className="action-button submit-button">
-            Schedule Call
-          </button>
-        </form>
+              Schedule Call
+            </button>
+            </center>
+          </form>
+        </motion.div>
       </main>
+
+      {/* Footer */}
+      <footer className="py-12 text-center bg-black text-gray-300">
+        <p>© 2025 OptiClaim by Roast and Toast</p>
+      </footer>
     </div>
   );
 }

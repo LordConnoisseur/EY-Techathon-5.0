@@ -1,16 +1,5 @@
 /* Global Styles */
-body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to right, #002244, #0056b3);
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    backdrop-filter: blur(10px);
-  }
-  
+
   /* Dashboard Wrapper */
   .dashboard-wrapper {
     width: 100%;

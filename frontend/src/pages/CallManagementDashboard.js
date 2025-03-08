@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import "./CallManagementDashboard.css"; // Import external CSS
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 
 function CallManagementDashboard() {
   const [stats, setStats] = useState({
@@ -10,15 +10,7 @@ function CallManagementDashboard() {
     escalated: 0,
   });
 
-  const [formData, setFormData] = useState({
-    customerName: "",
-    issue: "",
-    resolutionNotes: "",
-  });
-
-  const [transcript, setTranscript] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCallStats();
@@ -34,131 +26,79 @@ function CallManagementDashboard() {
     }
   };
 
-  const handleTranscriptChange = (event) => {
-    setTranscript(event.target.value);
-  };
-
-  const extractFormDetails = async () => {
-    if (!transcript.trim()) {
-      setError("Please enter a call transcript.");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    try {
-      const response = await fetch("http://127.0.0.1:5000/api/form-processing/fill-form", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ transcript }),
-      });
-
-      const data = await response.json();
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      setFormData({
-        customerName: data.form_data.customerName || "",
-        issue: data.form_data.issue || "",
-        resolutionNotes: data.form_data.resolutionNotes || "",
-      });
-    } catch (error) {
-      console.error("Error extracting form details:", error);
-      setError("Failed to extract details. Please try again.");
-    } finally {
-      setLoading(false);
+  // Function to determine the color based on the stat type
+  const getStatColor = (statType) => {
+    switch (statType) {
+      case "pending":
+        return "bg-blue-100 border-blue-500 text-blue-900"; // Blue for pending
+      case "inProgress":
+        return "bg-yellow-100 border-yellow-500 text-yellow-900"; // Yellow for in progress
+      case "resolved":
+        return "bg-green-100 border-green-500 text-green-900"; // Green for resolved
+      case "escalated":
+        return "bg-red-100 border-red-500 text-red-900"; // Red for escalated
+      default:
+        return "bg-gray-100 border-gray-500 text-gray-900"; // Default gray
     }
   };
 
   return (
-    <div className="dashboard-wrapper">
-      {/* Header with Dashboard Title */}
-      <header className="dashboard-header">
-        <h1 className="dashboard-title">Call Management Dashboard</h1>
-      </header>
+    <div className="bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 min-h-screen font-sans flex flex-col">
+      {/* Navbar */}
+      <nav className="flex justify-between items-center px-10 md:px-20 py-6 fixed w-full top-0 z-50 backdrop-blur-lg bg-white/90 shadow-lg border-b border-gray-200">
+        <h1 className="text-3xl font-bold text-gray-900">OptiClaim</h1>
+        <div className="hidden md:flex gap-10 items-center text-gray-800 text-lg">
+          <button onClick={() => navigate("/call-management")} className="hover:text-yellow-500 transition-colors">📞 Call Management</button>
+          <button onClick={() => navigate("/call-scheduling")} className="hover:text-yellow-500 transition-colors">📅 Call Scheduling</button>
+          <button onClick={() => navigate("/priority-management")} className="hover:text-yellow-500 transition-colors">⚡ Priority Management</button>
+          <button onClick={() => navigate("/sla-tracking")} className="hover:text-yellow-500 transition-colors">📊 SLA Tracking</button>
+          <button className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-red-400 transition-all font-semibold shadow-lg"> Logout</button>
+        </div>
+      </nav>
 
       {/* Main Content */}
-      <main className="dashboard-main">
-        {/* Call Statistics Grid */}
-        <div className="stats-grid">
-          <div className="glass-card stat-card">
-            <h2 className="stat-title">Pending Calls</h2>
-            <p className="stat-value">{stats.pending}</p>
-          </div>
-          <div className="glass-card stat-card">
-            <h2 className="stat-title">In Progress Calls</h2>
-            <p className="stat-value">{stats.inProgress}</p>
-          </div>
-          <div className="glass-card stat-card">
-            <h2 className="stat-title">Resolved Issues</h2>
-            <p className="stat-value">{stats.resolved}</p>
-          </div>
-          <div className="glass-card stat-card">
-            <h2 className="stat-title">Escalated Calls</h2>
-            <p className="stat-value">{stats.escalated}</p>
-          </div>
-        </div>
+      <main className="flex-1 flex flex-col items-center justify-center pt-24 pb-16 px-6 md:px-20">
+        <motion.div
+          className="bg-gradient-to-r from-gray-100 to-gray-300 rounded-xl shadow-2xl p-8 w-full max-w-6xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          <h2 className="text-4xl font-bold text-gray-900 mb-8">📞 Call Management Dashboard</h2>
 
-        {/* Automated Form Filling Section
-        <div className="glass-card form-section">
-          <h2 className="section-title">Automated Form Filling (AI Bot)</h2>
-
-          Call Transcript Input -- Comment this out
-          <textarea
-            placeholder="Paste the call transcript here..."
-            value={transcript}
-            onChange={handleTranscriptChange}
-            className="transcript-input"
-          />
-
-          Extract Details Button -- Comment this out
-          <button
-            onClick={extractFormDetails}
-            className="glass-card action-button"
-            disabled={loading}
-          >
-            {loading ? "Extracting..." : "Extract Details"}
-          </button>
-
-          Error Message -- Comment this out
-          {error && <p className="error-message">{error}</p>}
-
-          Display Extracted Form Data -- Comment this out
-          {formData.customerName && (
-            <div className="form-data">
-              <label>Customer Name:</label>
-              <input type="text" value={formData.customerName} readOnly />
-
-              <label>Issue:</label>
-              <textarea value={formData.issue} readOnly />
-
-              <label>Resolution Notes:</label>
-              <textarea value={formData.resolutionNotes} readOnly />
+          {/* Call Statistics Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {/* Pending Calls */}
+            <div className={`p-6 rounded-xl border-l-4 ${getStatColor("pending")}`}>
+              <h3 className="text-xl font-semibold mb-2">Pending Calls</h3>
+              <p className="text-3xl font-bold">{stats.pending}</p>
             </div>
-          )}
-        </div> */}
+
+            {/* In Progress Calls */}
+            <div className={`p-6 rounded-xl border-l-4 ${getStatColor("inProgress")}`}>
+              <h3 className="text-xl font-semibold mb-2">In Progress Calls</h3>
+              <p className="text-3xl font-bold">{stats.inProgress}</p>
+            </div>
+
+            {/* Resolved Issues */}
+            <div className={`p-6 rounded-xl border-l-4 ${getStatColor("resolved")}`}>
+              <h3 className="text-xl font-semibold mb-2">Resolved Issues</h3>
+              <p className="text-3xl font-bold">{stats.resolved}</p>
+            </div>
+
+            {/* Escalated Calls */}
+            <div className={`p-6 rounded-xl border-l-4 ${getStatColor("escalated")}`}>
+              <h3 className="text-xl font-semibold mb-2">Escalated Calls</h3>
+              <p className="text-3xl font-bold">{stats.escalated}</p>
+            </div>
+          </div>
+
+        </motion.div>
       </main>
 
-      {/* Floating Navigation Bar */}
-      <nav className="floating-nav">
-        <Link to="/call-queue" className="nav-link">
-          Call Queue
-        </Link>
-        <Link to="/call-scheduling" className="nav-link">
-          Call Scheduling
-        </Link>
-        <Link to="/priority-management" className="nav-link">
-          Priority Management
-        </Link>
-        <Link to="/sla-tracking" className="nav-link">
-          SLA Tracking
-        </Link>
-      </nav>
+      {/* Footer */}
+      <footer className="py-12 text-center bg-black text-gray-300">
+        <p>© 2025 OptiClaim by Roast and Toast</p>
+      </footer>
     </div>
   );
 }
