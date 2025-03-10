@@ -34,6 +34,12 @@ import AgentTraining from "./pages/AgentTraining";
 import AgentScoring from "./pages/AgentScoring";
 import EmailReply from "./pages/EmailReply";
 import { isAuthenticated, getRoles } from "./authService";
+import OutboundCallPage from "./pages/OutboundCall"
+import Client from "./pages/Client"
+import Anisha from './pages/Anisha';
+import CallTracker from './pages/AiCallTracker';
+import AIEmailTracker from './pages/AiEmailTrack'; // Import the new component
+import AIWhatsAppTracker from './pages/AiWATracker'; // Import the new component
 
 
 function ProtectedRoute({ element, allowedRoles }) {
@@ -56,7 +62,7 @@ function App() {
     <Router>
       <Routes>
         {/* Default route to Login */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to="/client" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
@@ -97,8 +103,17 @@ function App() {
         <Route path="/form-processing" element={<ProtectedRoute element={<FormProcessing />} allowedRoles={['agent']} />} />
         <Route path="/agentscoring" element={<ProtectedRoute element={<AgentScoring />} allowedRoles={['agent']} />} />
         <Route path="/agenttraining" element={<ProtectedRoute element={<AgentTraining />} allowedRoles={['agent']} />} />
-        <Route path="/audio-analysis" element={<ProtectedRoute element={<AudioAnalysisDashboard />} allowedRoles={['agent','manager']} />} />
+        <Route path="/audio-analysis" element={<AudioAnalysisDashboard />} />
         <Route path="/emailreply" element={<ProtectedRoute element={<EmailReply />} allowedRoles={['agent']} />} />
+
+        <Route path="/client" element={<Client />} />
+        <Route path="/outbound" element={<OutboundCallPage />} />
+        <Route path="/anisha" element={<Anisha />} />
+        <Route path="/anisha" element={<Anisha />} />
+        <Route path="/ai-call-tracker" element={<CallTracker />} />
+        <Route path="/ai-email-tracking" element={<AIEmailTracker />} />
+        <Route path="/ai-whatsapp-tracking" element={<AIWhatsAppTracker />} />
+
       </Routes>
       
     </Router>

@@ -29,6 +29,7 @@ const Dashboard = () => {
           <button onClick={() => navigate("/call-scheduling")} className="hover:text-yellow-500 transition-colors">📅 Call Scheduling</button>
           <button onClick={() => navigate("/priority-management")} className="hover:text-yellow-500 transition-colors">⚡ Priority Management</button>
           <button onClick={() => navigate("/sla-tracking")} className="hover:text-yellow-500 transition-colors">📊 SLA Tracking</button>
+          <button onClick={() => navigate("/document-upload")} className="hover:text-yellow-500 transition-colors">📑 Documents</button>
           <button onClick={handleLogout} className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-red-400 transition-all font-semibold shadow-lg">Logout</button>
         </div>
       </nav>

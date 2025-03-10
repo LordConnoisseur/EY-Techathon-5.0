@@ -1,54 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 const KnowledgeBaseDashboard = () => {
-  const [file, setFile] = useState(null);
   const [query, setQuery] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  // Automatically initialize the knowledge base when the page loads
+  useEffect(() => {
+    initializeKnowledgeBase();
+  }, []);
+
+  const initializeKnowledgeBase = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("http://127.0.0.1:5000/api/knowledge/initialize", {
+        method: "POST",
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Failed to initialize knowledge base.");
+      }
+    } catch (error) {
+      setError("Error initializing knowledge base. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleQueryChange = (e) => {
     setQuery(e.target.value);
-  };
-
-  const handleFileUpload = async () => {
-    if (!file) {
-      setError("Please upload a PDF file first.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-
-    setLoading(true);
-    setError("");
-    setResponse("");
-
-    try {
-      const res = await fetch("http://127.0.0.1:5000/api/knowledge/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        setResponse(data.message);
-      } else {
-        setError(data.error || "An error occurred while uploading the file.");
-      }
-    } catch (error) {
-      setError("Error uploading file. Please try again.");
-    } finally {
-      setLoading(false);
-    }
   };
 
   const handleQuerySubmit = async () => {
@@ -102,31 +87,7 @@ const KnowledgeBaseDashboard = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Smart SearchInterface</h1>
-
-          {/* File Upload Section */}
-          <div className="mb-8">
-            <input
-              type="file"
-              accept=".pdf"
-              onChange={handleFileChange}
-              className="hidden"
-              id="file-upload"
-            />
-            <label
-              htmlFor="file-upload"
-              className="cursor-pointer px-6 py-3 rounded-full text-white bg-blue-500 hover:bg-blue-400 transition-all font-semibold shadow-md"
-            >
-              {file ? file.name : "Upload PDF"}
-            </label>
-            <button
-              onClick={handleFileUpload}
-              className="ml-4 px-6 py-3 rounded-full text-white bg-green-500 hover:bg-green-400 transition-all font-semibold shadow-md"
-              disabled={loading}
-            >
-              {loading ? "Uploading..." : "Save"}
-            </button>
-          </div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">Smart Search Interface</h1>
 
           {/* Query Input Section */}
           <div className="mb-8">
