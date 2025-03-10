@@ -62,7 +62,7 @@ function App() {
     <Router>
       <Routes>
         {/* Default route to Login */}
-        <Route path="/" element={<Navigate to="/client" replace />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
