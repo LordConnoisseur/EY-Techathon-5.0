@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { logout } from "../authService";
 
 function CallQueueDashboard() {
   const [calls, setCalls] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const loggedInAgent = "Sundaresh";
+
+  const handleLogout = () => {
+      logout(); // Clear auth data
+      navigate("/login"); // Redirect to login page
+  };
 
   useEffect(() => {
     fetchAssignedCalls();
@@ -42,7 +48,7 @@ function CallQueueDashboard() {
           <button onClick={() => navigate("/knowledge-base")} className="hover:text-yellow-500 transition-colors">Smart Search</button>
           <button onClick={() => navigate("/agenttraining")} className="hover:text-yellow-500 transition-colors">AI Agent Trainer</button>
           <button onClick={() => navigate("/feedbackanalysis")} className="hover:text-yellow-500 transition-colors">Claim Analyzer</button>
-          <button className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-yellow-400 transition-all font-semibold shadow-lg">Logout</button>
+          <button onClick={handleLogout} className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-yellow-400 transition-all font-semibold shadow-lg">Logout</button>
         </div>
       </nav>
       <br></br>

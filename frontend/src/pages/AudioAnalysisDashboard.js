@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { logout } from "../authService";
 
 function AudioAnalysisDashboard() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -376,6 +377,11 @@ function AudioAnalysisDashboard() {
     };
   }, [isCallRinging, callSid, recording]);
 
+  const handleLogout = () => {
+        logout(); // Clear auth data
+        navigate("/login"); // Redirect to login page
+    };
+  
   return (
     <div className="bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 min-h-screen font-sans flex flex-col">
       {/* Navbar */}
@@ -386,7 +392,7 @@ function AudioAnalysisDashboard() {
           <button onClick={() => navigate("/knowledge-base")} className="hover:text-yellow-500 transition-colors">Knowledge Base</button>
           <button onClick={() => navigate("/agenttraining")} className="hover:text-yellow-500 transition-colors">AI Agent Trainer</button>
           <button onClick={() => navigate("/feedbackanalysis")} className="hover:text-yellow-500 transition-colors">Claim Analyzer</button>
-          <button className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-red-400 transition-all font-semibold shadow-lg">Logout</button>
+          <button onClick={handleLogout} className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-red-400 transition-all font-semibold shadow-lg">Logout</button>
         </div>
       </nav>
 

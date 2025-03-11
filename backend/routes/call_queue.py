@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from db import db
-from models import CallQueue
+from models import CallQueue, ClaimSubmission
 
 call_queue_bp = Blueprint("call_queue", __name__)
 
@@ -21,9 +21,20 @@ def schedule_call():
     )
 
     db.session.add(new_call)
+    
+    claim = ClaimSubmission.query.filter_by(name=data["caller_name"], phone=data["caller_phone"]).first()
+    if claim:
+        claim.status = "scheduled"
+
     db.session.commit()
     
     return jsonify({"message": "Call scheduled successfully", "call": new_call.to_dict()}), 201
+
+@call_queue_bp.route("/pending-claims", methods=["GET"])
+def get_pending_claims():
+    """Returns only pending claims"""
+    pending_claims = ClaimSubmission.query.filter_by(status="pending").all()
+    return jsonify([claim.to_dict() for claim in pending_claims]), 200
 
 @call_queue_bp.route("/agent/<string:agent_name>", methods=["GET"])
 def get_calls_for_agent(agent_name):

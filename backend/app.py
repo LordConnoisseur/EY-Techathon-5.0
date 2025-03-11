@@ -27,6 +27,7 @@ from routes.email_routes import email_bp
 from auth import auth_bp
 from models import Role
 from routes.audio_routes import audio_bp
+from routes.client import client_bp
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -74,6 +75,7 @@ app.register_blueprint(agent_training_bp,url_prefix="/api/agent_training")
 app.register_blueprint(agent_scoring_bp,url_prefix="/api/agent_scoring")
 app.register_blueprint(email_bp,url_prefix="/api/email")
 app.register_blueprint(audio_bp, url_prefix="/api/audio")
+app.register_blueprint(client_bp, url_prefix="/api/client")
 
 # Initialize Scheduler (If you need to use it)
 # from apscheduler.schedulers.background import BackgroundScheduler

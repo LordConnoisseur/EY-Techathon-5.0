@@ -10,10 +10,38 @@ const Client = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Form submitted successfully!');
+  
+    const formData = {
+      name: e.target.name.value,
+      phone: e.target.phone.value,
+      policy: e.target.policy.value,
+      incident: e.target.incident.value
+    };
+  
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/client/claim/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+  
+      if (response.ok) {
+        alert("Claim submitted successfully!");
+        e.target.reset(); // Clear form fields
+      } else {
+        const data = await response.json();
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Error submitting claim:", error);
+      alert("An error occurred while submitting the claim.");
+    }
   };
+  
 
   const handleFeedbackSubmit = async (e) => {
     e.preventDefault();
@@ -56,13 +84,6 @@ const Client = () => {
       {/* Navbar */}
       <nav className="flex justify-between items-center px-10 md:px-20 py-6 fixed w-full top-0 z-50 backdrop-blur-lg bg-white/90 shadow-lg border-b border-gray-200">
         <h1 className="text-3xl font-bold text-gray-900">OptiClaim</h1>
-        <div className="hidden md:flex gap-10 items-center text-gray-800 text-lg">
-          <button onClick={() => navigate("/anisha")} className="hover:text-yellow-500 transition-colors">Anisha</button>
-          <button onClick={() => navigate("/knowledge-base")} className="hover:text-yellow-500 transition-colors">Smart Search</button>
-          <button onClick={() => navigate("/agenttraining")} className="hover:text-yellow-500 transition-colors">AI Agent Trainer</button>
-          <button onClick={() => navigate("/feedbackanalysis")} className="hover:text-yellow-500 transition-colors">Claim Analyzer</button>
-          <button className="px-8 py-3 rounded-full text-white bg-red-500 hover:bg-yellow-400 transition-all font-semibold shadow-lg">Logout</button>
-        </div>
       </nav>
       <br></br>
 

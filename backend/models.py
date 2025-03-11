@@ -89,3 +89,22 @@ class ChurnPrediction(db.Model):
     client_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     churn_probability = db.Column(db.Float, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+class ClaimSubmission(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    phone = db.Column(db.String(15), nullable=False)
+    policy_number = db.Column(db.String(50), nullable=False)
+    incident_detail = db.Column(db.Text, nullable=False)
+    submitted_at = db.Column(db.DateTime, default=datetime.utcnow)
+    status = db.Column(db.String(20), default="pending")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "phone": self.phone,
+            "policy_number": self.policy_number,
+            "incident_detail": self.incident_detail,
+            "status": self.status,
+        }
