@@ -18,7 +18,7 @@ const fastify = Fastify();
 
 // Enable CORS
 fastify.register(cors, {
-  origin: ["http://localhost:3000", "https://kiwi-worthy-lightly.ngrok-free.app"], // Allow both local and Ngrok origins
+  origin: ["http://localhost:3000", "https://darling-ideally-airedale.ngrok-free.app/"], // Allow both local and Ngrok origins
   methods: ["GET", "POST", "PUT", "DELETE"],
 });
 
@@ -134,10 +134,10 @@ fastify.post("/initiate-call", async (request, reply) => {
 
   try {
     const call = await twilioClient.calls.create({
-      url: `https://kiwi-worthy-lightly.ngrok-free.app/call-handler`, // TwiML URL for call handling
+      url: `https://darling-ideally-airedale.ngrok-free.app/call-handler`, // TwiML URL for call handling
       to: to,
       from: TWILIO_NUMBER,
-      statusCallback: "https://kiwi-worthy-lightly.ngrok-free.app/call-status", // Add status callback
+      statusCallback: "https://darling-ideally-airedale.ngrok-free.app/call-status", // Add status callback
       statusCallbackEvent: ["initiated", "ringing", "answered", "completed"], // Track all status events
       statusCallbackMethod: "POST"
     });
@@ -236,7 +236,7 @@ fastify.post("/call-handler", (request, reply) => {
                         <Response>
                             <Say>Connection established. Starting two way communication.</Say>
                             <Connect>
-                                <Stream url="wss://kiwi-worthy-lightly.ngrok-free.app/media-stream" />
+                                <Stream url="wss://darling-ideally-airedale.ngrok-free.app/media-stream" />
                             </Connect>
                             <Say>The call has ended. Goodbye.</Say>
                         </Response>`;

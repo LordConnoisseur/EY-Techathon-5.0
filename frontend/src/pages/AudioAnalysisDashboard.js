@@ -27,7 +27,7 @@ function AudioAnalysisDashboard() {
 
   // Initialize WebSocket connection
   useEffect(() => {
-    const websocket = new WebSocket("wss://kiwi-worthy-lightly.ngrok-free.app/media-stream");
+    const websocket = new WebSocket("wss://darling-ideally-airedale.ngrok-free.app/media-stream");
 
     websocket.onopen = () => {
       console.log("WebSocket connected");
@@ -179,7 +179,7 @@ function AudioAnalysisDashboard() {
       setCallStatus("Initiating call...");
       setIsCallRinging(true);
       
-      const response = await fetch("http://localhost:80/initiate-call", {
+      const response = await fetch("https://darling-ideally-airedale.ngrok-free.app/initiate-call", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -210,7 +210,7 @@ function AudioAnalysisDashboard() {
     try {
       setCallStatus("Ending call...");
       
-      const response = await fetch("http://localhost:80/end-call", {
+      const response = await fetch("https://darling-ideally-airedale.ngrok-free.app/end-call", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -332,7 +332,7 @@ function AudioAnalysisDashboard() {
     if (isCallRinging && callSid) {
       intervalId = setInterval(async () => {
         try {
-          const response = await fetch(`http://localhost:80/call-status-check?callSid=${callSid}`, {
+          const response = await fetch(`https://darling-ideally-airedale.ngrok-free.app/call-status-check?callSid=${callSid}`, {
             method: "GET",
           });
           
